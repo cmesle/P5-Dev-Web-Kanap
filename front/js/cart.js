@@ -5,20 +5,20 @@ var nbArticle = 0
 //  AFFICHAGE DES CANAPES AJOUTES AU LOCALSTORAGE
 
 let cart = JSON.parse(localStorage.getItem("articleLS"))//  récupération du localStorage
-console.log(cart)
+// console.log(cart)
 
-/*  Si un même article (id + option) a été ajouté 2 fois au localStorage,
-    on les transforme en 1 seule entrée du panier */
-for (j = 0; j < cart.length; j++) {
-    if (cart[j][0] == cart[j+1][0] && cart[j][2] == cart[j+1][2]) {
-alert("c'est les mêmes")
-      cart[j][1] = parseInt(cart[j][1]) + parseInt(cart[j+1][1])
-      cart.splice(1, 1)
-      console.log(cart[j])
-    } else {
-      alert('sont pas pareil')
-    }
-}
+// /*  Si un même article (id + option) a été ajouté 2 fois au localStorage,
+//     on les transforme en 1 seule entrée du panier */
+// for (j = 0; j < cart.length; j++) {
+//     if (cart[j][0] == cart[j+1][0] && cart[j][2] == cart[j+1][2]) {
+// alert("c'est les mêmes")
+//       cart[j][1] = parseInt(cart[j][1]) + parseInt(cart[j+1][1])
+//       cart.splice(1, 1)
+//       console.log(cart[j])
+//     } else {
+//       alert('sont pas pareil')
+//     }
+// }
 
 cart.forEach(article => { // boucle d'affichage de chaque item du localStorage
 
@@ -79,16 +79,16 @@ cart.forEach(article => { // boucle d'affichage de chaque item du localStorage
 
   // SUPPRESSION D'UN ARTICLE
 
-function supprimerArticle() {
-  var supprBtn = document.getElementById('test')
+// function supprimerArticle() {
+//   var supprBtn = document.getElementById('test')
 
-  // let supprBtn1 = supprBtn[0]
+//   // let supprBtn1 = supprBtn[0]
 
-  supprBtn.addEventListener('click', function(e){
-    e.preventDefault()
-    localStorage.removeItem("article")
-  })
-}
+//   supprBtn.addEventListener('click', function(e){
+//     e.preventDefault()
+//     localStorage.removeItem("article")
+//   })
+// }
 
 
 
