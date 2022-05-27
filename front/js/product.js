@@ -39,7 +39,7 @@ function verifFormulaire (e) {
     else if (colorSelect.options.selectedIndex==[0]) {
         alert('Votre confiance nous honore, mais ne préférez-vous pas choisir vous-même la couleur du canapé ?')
     } else {
-        let cartItem = [_id, quantity.value, colorSelect.value]
+        let cartItem = [_id, colorSelect.value, quantity.value]
         let cart = JSON.parse(localStorage.getItem("articleLS"))
 
         if (cart) {
