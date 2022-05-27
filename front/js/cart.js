@@ -7,7 +7,7 @@ var nbArticle = 0
 
 let cart = JSON.parse(localStorage.getItem("articleLS"))//  récupération du localStorage
 const nbLigneLS = cart.length
-console.log(cart)
+
 var IDs = []
 for (i=0; i < cart.length; i++) {
   let id = cart[i][0]
@@ -32,34 +32,30 @@ function tableauIDs() {
 //  AGREGATION DES LIGNES ARTICLE EN DOUBLON
 /*  Si un même article (id + option) a été ajouté plus d'1 fois au localStorage,
     on les transforme en 1 seule entrée du panier */
+var compteurNbArticlesAjoutes = 0
 IDs.forEach(id => {
-  // console.log(cart.filter(el => el[0]==id))
   let cartArticle = cart.filter(el => el[0]==id)
   cartArticle.sort()
-  console.log(cartArticle)
   regrouper(cartArticle)
-  cartArticle.forEach(ligne => {
+  cartArticle.forEach(ligne => {  //  pour ajouter des tableaux à cart, pas des tableaux de tableaux
     cart.push(ligne)
+    compteurNbArticlesAjoutes ++
   })
-  // cart.push(cartArticle)
 })
+
 function regrouper(cartArticle) {
   while(cartArticle.length>1 && (cartArticle[0][1]==cartArticle[1][1])) {
       cartArticle[0][2] = parseInt(cartArticle[0][2]) + parseInt(cartArticle[1][2])
       cartArticle.splice(1,1)
-      console.log(cartArticle)
     }
   }
 
 // MISE A JOUR DU CART
-/* problème : j'obtiens un niveau de trop de tableau dans les tableaux :
-  je veux mettre les *élements* de cartArticle dans cart, pas cartArticle*/
-cart = cart.splice(nbLigneLS, IDs.length)
-console.log(cart)
+  cart = cart.splice(nbLigneLS, compteurNbArticlesAjoutes) // suppression des lignes d'origine
+ let sortedCart = cart.sort()                                              // tri par id
 
 
-
-cart.forEach(article => { // boucle d'affichage de chaque item du localStorage
+sortedCart.forEach(article => { // boucle d'affichage de chaque item du localStorage
 
   let _id = article[0] // récupération de l'ID du canapé
 
@@ -69,20 +65,20 @@ cart.forEach(article => { // boucle d'affichage de chaque item du localStorage
 
   function afficherArticle(canape) {
     let affichage = 
-              `<article class="cart__item" data-id="{cartItem[0]}" data-color="{article[2]}">
+              `<article class="cart__item" data-id="${article[0]}" data-color="${article[2]}">
                 <div class="cart__item__img">
                   <img src="${canape.imageUrl}" alt="${canape.altTxt}">
                 </div>
                 <div class="cart__item__content">
                   <div class="cart__item__content__description">
                     <h2>${canape.name}</h2>
-                    <p>${article[2]}</p>
+                    <p>${article[1]}</p>
                     <p>${canape.price}€</p>
                   </div>
                   <div class="cart__item__content__settings">
                     <div class="cart__item__content__settings__quantity">
                       <p>Qté : </p>
-                      <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${article[1]}">
+                      <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${article[2]}">
                     </div>
                     <div class="cart__item__content__settings__delete">
                       <p class="deleteItem">Supprimer</p>
@@ -98,35 +94,44 @@ cart.forEach(article => { // boucle d'affichage de chaque item du localStorage
     // AFFICHE LE NOMBRE D'ARTICLES DANS LA COMMANDE
     function quantiteTotale () {
     let totalQuantity = document.getElementById('totalQuantity')
-    nbArticle += parseInt(article[1], 10)
+    nbArticle += parseInt(article[2], 10)
     totalQuantity.textContent = nbArticle
     }
 
 
     // CALCULE ET AFFICHE LE MONTANT TOTAL DE LA COMMANDE
     function prixTotal() {
-      prixLigne += canape.price*article[1]
+      prixLigne += canape.price*article[2]
       let totalPrice = document.getElementById('totalPrice')
       totalPrice.textContent = prixLigne
     }
 
-  // SUPPRESSION D'UN ARTICLE
 
-  // function supprimerArticle() {
-
-
-    // supprBtn.addEventListener('click', function(e){
-    //   e.preventDefault()
-    //   localStorage.removeItem("articleLS")
-    // })
-  // }
 
   }
 
 
   
 });
-var supprBtn = document.getElementsByClassName('deleteItem')[0]
+
+  // SUPPRESSION D'UN ARTICLE
+
+  // function supprimerArticle() {
+    var supprBtns = document.getElementsByClassName('deleteItem')
+    console.log(supprBtns.length)
+    console.log(supprBtns[0])
+    bouton()
+    function bouton() {
+      console.log(supprBtns.length)
+      for (i=0; i<supprBtns.length; i++) {
+           supprBtns[i].style.color = 'red'
+           console.log(supprBtns[i])
+          //  supprBtns[i].addEventListener('click', function(e) {
+          //   e.preventDefault()
+          //   console.log(cart)
+          //  })
+      }
+    }
 
 
 
