@@ -65,7 +65,7 @@ sortedCart.forEach(article => { // boucle d'affichage de chaque item du localSto
 
   function afficherArticle(canape) {
     let affichage = 
-              `<article class="cart__item" data-id="${article[0]}" data-color="${article[2]}">
+              `<article class="cart__item" data-id="${article[0]}" data-color="${article[1]}">
                 <div class="cart__item__img">
                   <img src="${canape.imageUrl}" alt="${canape.altTxt}">
                 </div>
@@ -118,20 +118,23 @@ sortedCart.forEach(article => { // boucle d'affichage de chaque item du localSto
 
   // function supprimerArticle() {
     var supprBtns = document.getElementsByClassName('deleteItem')
-    console.log(supprBtns.length)
-    console.log(supprBtns[0])
-    bouton()
-    function bouton() {
+    // console.log(supprBtns.length)
+    // console.log(supprBtns[0])
+
+    // let monBoutonTest = supprBtns[0]
+    // console.log(monBoutonTest)
+    // monBoutonTest.style.color ='red'
       console.log(supprBtns.length)
       for (i=0; i<supprBtns.length; i++) {
-           supprBtns[i].style.color = 'red'
-           console.log(supprBtns[i])
-          //  supprBtns[i].addEventListener('click', function(e) {
-          //   e.preventDefault()
-          //   console.log(cart)
-          //  })
+          //  supprBtns[i].style.color = 'red'
+          //  console.log(supprBtns[i])
+          let btn = supprBtns[i]
+           btn.addEventListener('click', function(e) {
+            e.preventDefault()
+            alert('yahoooo!')
+           })
       }
-    }
+    
 
 
 
