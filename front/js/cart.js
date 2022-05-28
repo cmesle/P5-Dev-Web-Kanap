@@ -3,22 +3,21 @@ var prixLigne = 0
 var nbArticle = 0
 
 
-//  AFFICHAGE DES CANAPES AJOUTES AU LOCALSTORAGE
+//  PREPARATION DU PANIER A AFFICHER A PARTIR DU LOCALSTORAGE
 
-let cart = JSON.parse(localStorage.getItem("articleLS"))//  récupération du localStorage
-const nbLigneLS = cart.length
+let cart = JSON.parse(localStorage.getItem("articleLS"))//  récupération du localStorage au format JS
+const nbLignesLS = cart.length
 
-var IDs = []
-for (i=0; i < cart.length; i++) {
+var IDs = []                                            //  construction d'un array où 
+for (i=0; i < cart.length; i++) {                       //  les _id n'apparaissent qu'une fois
   let id = cart[i][0]
   IDs.push(id)
 }
 IDs.sort()
 tableauIDs()
-function tableauIDs() {
+function tableauIDs() {                             
   for (i=0; i < IDs.length+3  ; i++) {
-    // console.log(i + ' ' + IDs.length)
-    if (IDs[0] == IDs[1]) {                       // si les 2 1ers éléments sont égaux,
+    if (IDs[0] == IDs[1]) {                         // si les 2 1ers éléments sont égaux,
       IDs.shift()                                   // on supprime le 1er
       // console.log(IDs)
     } else {                                        // sinon
@@ -51,11 +50,12 @@ function regrouper(cartArticle) {
   }
 
 // MISE A JOUR DU CART
-  cart = cart.splice(nbLigneLS, compteurNbArticlesAjoutes) // suppression des lignes d'origine
- let sortedCart = cart.sort()                                              // tri par id
+  cart = cart.splice(nbLignesLS, compteurNbArticlesAjoutes) // suppression des lignes d'origine
+  cart = cart.sort()                                        // tri par id
 
-
-sortedCart.forEach(article => { // boucle d'affichage de chaque item du localStorage
+//  AFFICHAGE DES CANAPES AJOUTES AU LOCALSTORAGE
+setTimeout(
+cart.forEach(article => { // boucle d'affichage de chaque item du cart
 
   let _id = article[0] // récupération de l'ID du canapé
 
@@ -93,9 +93,9 @@ sortedCart.forEach(article => { // boucle d'affichage de chaque item du localSto
     prixTotal()
     // AFFICHE LE NOMBRE D'ARTICLES DANS LA COMMANDE
     function quantiteTotale () {
-    let totalQuantity = document.getElementById('totalQuantity')
-    nbArticle += parseInt(article[2], 10)
-    totalQuantity.textContent = nbArticle
+      let totalQuantity = document.getElementById('totalQuantity')
+      nbArticle += parseInt(article[2], 10)
+      totalQuantity.textContent = nbArticle
     }
 
 
@@ -106,24 +106,16 @@ sortedCart.forEach(article => { // boucle d'affichage de chaque item du localSto
       totalPrice.textContent = prixLigne
     }
 
-
-
   }
+}), 1000)
 
-
-  
-});
-
+setTimeout(supprimerArticle, 500)
   // SUPPRESSION D'UN ARTICLE
 
-  // function supprimerArticle() {
+  function supprimerArticle() {
     var supprBtns = document.getElementsByClassName('deleteItem')
-    // console.log(supprBtns.length)
-    // console.log(supprBtns[0])
-
-    // let monBoutonTest = supprBtns[0]
-    // console.log(monBoutonTest)
-    // monBoutonTest.style.color ='red'
+    console.log(supprBtns.length)
+    console.log(supprBtns[0])
       console.log(supprBtns.length)
       for (i=0; i<supprBtns.length; i++) {
           //  supprBtns[i].style.color = 'red'
@@ -134,6 +126,7 @@ sortedCart.forEach(article => { // boucle d'affichage de chaque item du localSto
             alert('yahoooo!')
            })
       }
+    }
     
 
 
