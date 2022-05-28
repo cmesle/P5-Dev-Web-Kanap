@@ -11,6 +11,13 @@ const erreurAdresse = document.getElementById('addressErrorMsg')
 const erreurVille = document.getElementById('cityErrorMsg')
 const erreurEmail = document.getElementById('emailErrorMsg')
 
+
+const erreurPrenomMsg = 'Votre prénom avec que des lettres svp'
+const erreurNomMsg = 'Votre nom avec que des lettres svp'
+const erreurAdresseMsg = 'Votre adresse ?'
+const erreurVilleMsg = 'Votre ville ?'
+const erreurEmailMsg = 'format attendu : exemple@exemple.ex'
+
 const textOnlyRegex = /^[A-Z][A-Za-zÀ-ÖØ-öø-ÿ' -]+/
 const numbersOnlyRegex = /[\D]/
 
@@ -23,47 +30,48 @@ email.value = ''
 
 
 // vérification du format des champs sans nombre firstName, lastName, city
-prenom.addEventListener('change', function(e) {
+prenom.addEventListener('blur', function(e) {
     e.preventDefault
     let value = e.target.value;
     let test = textOnlyRegex.test(value)
     if (!test) { 
-        erreurPrenom.textContent = 'Votre prénom avec que des lettres svp'
+        erreurPrenom.textContent = erreurPrenomMsg
+        prenom.focus()
     } else {
         erreurPrenom.textContent = ''
     }
 });
 
-nom.addEventListener('change', function(e) {
+nom.addEventListener('blur', function(e) {
     let value = e.target.value;
     let test = textOnlyRegex.test(value)
     if (test) {
         erreurNom.textContent = ''
     } else {
-        erreurNom.textContent = 'que des lettres svp'
+        erreurNom.textContent = erreurNomMsg
     }
 });
 
-ville.addEventListener('change', function(e) {
+ville.addEventListener('blur', function(e) {
     let value = e.target.value;
     let test = textOnlyRegex.test(value)
     if (test) {
         isValid = true;
     } else {
         isValid = false;
-        erreurVille.textContent += 'que des lettres svp'
+        erreurVille.textContent = erreurVilleMsg
     }
 });
 
 // vérification du champ adresse (ne peut pas contenir que des nombres)
-adresse.addEventListener('change', function(e) {
+adresse.addEventListener('blur', function(e) {
     let value = e.target.value;
     let test = numbersOnlyRegex.test(value)
     if (test) {
         // isValid = true;
     } else {
         // isValid = false;
-        erreurAdresse.textContent += 'ceci ne ressemble pas à une adresse...'
+        erreurAdresse.textContent = erreurAdresseMsg
     }
 });
 
@@ -73,7 +81,7 @@ email.addEventListener('change', function(e) {
     var emailRegEx = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
     var test = emailRegEx.test(value)
     if(!test) {
-        erreurEmail.textContent += 'format attendu : exemple@exemple.ex'
+        erreurEmail.textContent = erreurEmailMsg
     }
 })
 
@@ -88,7 +96,6 @@ commander.addEventListener('click', function(e) {
     }
     if (prenom.value=='' || nom.value=='' || adresse.value=='' || ville.value=='' || email.value=='') {
         alert('ts champs obligatoires')
-        return false
     } else {
         var contact = {
             firstName : prenom.value,
@@ -97,21 +104,15 @@ commander.addEventListener('click', function(e) {
             city : ville.value,
             email : email.value
         }
-        console.log(contact)
     }
 
-
-
-
-    // fetch('http://url-service-web.com/api/orders', {
-	// method: 'POST',
-	// headers: { 
-    // 'Accept': 'application/json', 
-    // 'Content-Type': 'application/json',
-    // 'Access-Control-Allow-Origin': '*'
- 
-    // },
-	//     body: JSON.stringify(contact)
-    // })
+    fetch('http://localhost:3000/api/products/order', {
+	method: 'POST',
+	headers: { 
+    'Accept': 'application/json', 
+    'Content-Type': 'application/json',
+    },
+	    body: JSON.stringify(contact)
+    })
+    // .then(localStorage.clear())
 })
-
