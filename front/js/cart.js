@@ -8,54 +8,56 @@ var nbArticle = 0
 let cart = JSON.parse(localStorage.getItem("articleLS"))//  récupération du localStorage
 const nbLigneLS = cart.length
 
-var IDs = []
-for (i=0; i < cart.length; i++) {
-  let id = cart[i][0]
-  IDs.push(id)
-}
-IDs.sort()
-tableauIDs()
-function tableauIDs() {
-  for (i=0; i < IDs.length+3  ; i++) {
-    // console.log(i + ' ' + IDs.length)
-    if (IDs[0] == IDs[1]) {                       // si les 2 1ers éléments sont égaux,
-      IDs.shift()                                   // on supprime le 1er
-      // console.log(IDs)
-    } else {                                        // sinon
-      let toBeMoved = (IDs.splice(0,1)).toString()  // on ôte le 1er élémént
-      IDs.push(toBeMoved)                           // pour le mettre à la fin du tableau
-      // console.log(IDs)
-    }
-  }
-}
 
-//  AGREGATION DES LIGNES ARTICLE EN DOUBLON
-/*  Si un même article (id + option) a été ajouté plus d'1 fois au localStorage,
-    on les transforme en 1 seule entrée du panier */
-var compteurNbArticlesAjoutes = 0
-IDs.forEach(id => {
-  let cartArticle = cart.filter(el => el[0]==id)
-  cartArticle.sort()
-  regrouper(cartArticle)
-  cartArticle.forEach(ligne => {  //  pour ajouter des tableaux à cart, pas des tableaux de tableaux
-    cart.push(ligne)
-    compteurNbArticlesAjoutes ++
-  })
-})
+// var IDs = []
+// for (i=0; i < nbLigneLS; i++) {
+//   let id = cart[i][0]
+//   IDs.push(id)
+// }
+// IDs.sort()
+// tableauIDs()
+// function tableauIDs() {
+//   for (i=0; i < IDs.length  ; i++) {
+//     // console.log(i + ' ' + IDs.length)
+//     if (IDs.length>1 && IDs[0] == IDs[1]) {                       // si les 2 1ers éléments sont égaux,
+//       IDs.shift()                                   // on supprime le 1er
+//       // console.log(IDs)
+//     } else {                                        // sinon
+//       let toBeMoved = (IDs.splice(0,1)).toString()  // on ôte le 1er élémént
+//       IDs.push(toBeMoved)                           // pour le mettre à la fin du tableau
+//       // console.log(IDs)
+//     }
+//   }
+// }
 
-function regrouper(cartArticle) {
-  while(cartArticle.length>1 && (cartArticle[0][1]==cartArticle[1][1])) {
-      cartArticle[0][2] = parseInt(cartArticle[0][2]) + parseInt(cartArticle[1][2])
-      cartArticle.splice(1,1)
-    }
-  }
+// //  AGREGATION DES LIGNES ARTICLE EN DOUBLON
+// /*  Si un même article (id + option) a été ajouté plus d'1 fois au localStorage,
+//     on les transforme en 1 seule entrée du panier */
+// var compteurNbArticlesAjoutes = 0
+// IDs.forEach(id => {
+//   let cartArticle = cart.filter(el => el[0]==id)
+//   cartArticle.sort()
+//   regrouper(cartArticle)
+//   cartArticle.forEach(ligne => {  //  pour ajouter des tableaux à cart, pas des tableaux de tableaux
+//     cart.push(ligne)
+//     compteurNbArticlesAjoutes ++
+//   })
+// })
 
-// MISE A JOUR DU CART
-  cart = cart.splice(nbLigneLS, compteurNbArticlesAjoutes) // suppression des lignes d'origine
- let sortedCart = cart.sort()                                              // tri par id
+// function regrouper(cartArticle) {
+//   while(cartArticle.length>1 && (cartArticle[0][1]==cartArticle[1][1])) {
+//       cartArticle[0][2] = parseInt(cartArticle[0][2]) + parseInt(cartArticle[1][2])
+//       cartArticle.splice(1,1)
+//     }
+//   }
+
+// // MISE A JOUR DU CART
+//   cart = cart.splice(nbLigneLS, compteurNbArticlesAjoutes) // suppression des lignes d'origine
+// cart = cart.sort()                                              // tri par id
 
 
-sortedCart.forEach(article => { // boucle d'affichage de chaque item du localStorage
+
+cart.forEach(article => { // boucle d'affichage de chaque item du localStorage
 
   let _id = article[0] // récupération de l'ID du canapé
 
@@ -65,7 +67,7 @@ sortedCart.forEach(article => { // boucle d'affichage de chaque item du localSto
 
   function afficherArticle(canape) {
     let affichage = 
-              `<article class="cart__item" data-id="${article[0]}" data-color="${article[2]}">
+              `<article class="cart__item" data-id="${article[0]}" data-color="${article[1]}">
                 <div class="cart__item__img">
                   <img src="${canape.imageUrl}" alt="${canape.altTxt}">
                 </div>
@@ -91,6 +93,7 @@ sortedCart.forEach(article => { // boucle d'affichage de chaque item du localSto
     quantiteTotale()
 
     prixTotal()
+
     // AFFICHE LE NOMBRE D'ARTICLES DANS LA COMMANDE
     function quantiteTotale () {
     let totalQuantity = document.getElementById('totalQuantity')
@@ -98,40 +101,59 @@ sortedCart.forEach(article => { // boucle d'affichage de chaque item du localSto
     totalQuantity.textContent = nbArticle
     }
 
-
     // CALCULE ET AFFICHE LE MONTANT TOTAL DE LA COMMANDE
     function prixTotal() {
       prixLigne += canape.price*article[2]
       let totalPrice = document.getElementById('totalPrice')
       totalPrice.textContent = prixLigne
     }
-
-
-
   }
-
-
-  
 });
 
+  setTimeout(btnActivation, 500)
   // SUPPRESSION D'UN ARTICLE
 
-  // function supprimerArticle() {
+  function btnActivation() {
     var supprBtns = document.getElementsByClassName('deleteItem')
-    console.log(supprBtns.length)
-    console.log(supprBtns[0])
-    bouton()
-    function bouton() {
-      console.log(supprBtns.length)
       for (i=0; i<supprBtns.length; i++) {
-           supprBtns[i].style.color = 'red'
-           console.log(supprBtns[i])
-          //  supprBtns[i].addEventListener('click', function(e) {
-          //   e.preventDefault()
-          //   console.log(cart)
-          //  })
+          let btn = supprBtns[i]
+           btn.addEventListener('click', function(e) {
+            e.preventDefault()
+            alert('yahoo')
+            let currentArticle = btn.closest('article')  //  sélectionne l'article, trouve son index
+            let currentArticleID = currentArticle.dataset['id']
+            let currentArticleColor = currentArticle.dataset['color']
+            let i =0
+            let suppression = false
+            while(i<cart.length && !suppression) {
+              if(cart[i][0]==currentArticleID && cart[i][1]==currentArticleColor) {
+                cart.splice(i, 1)
+                suppression = true
+              }
+              i++
+            }
+            localStorage.setItem('articleLS', JSON.stringify(cart))
+            window.location = 'cart.html'
+          })
+
+
       }
+      
     }
+
+  // function supprimerArticle() {
+  //   let currentArticle = btn.closest('article')  //  sélectionne l'article, trouve son index
+  //   let currentArticleID = currentArticle.dataset['id']
+  //   let currentArticleColor = currentArticle.dataset['color']
+  //   let articleASupprimer
+  //   cart.forEach(article => {
+  //     if (article[0]==currentArticleID && article[1]==currentArticleColor) {
+  //       articleASupprimer = article
+  //     }
+  //   })
+  //   cart.splice(cart.indexOf(articleASupprimer), 1)    //  supprime l'article du cart
+  //   afficherArticle() //  relance la fonction d'affichage du panier
+  // }
 
 
 

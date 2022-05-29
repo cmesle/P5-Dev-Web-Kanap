@@ -43,6 +43,7 @@ function verifFormulaire (e) {
         let cart = JSON.parse(localStorage.getItem("articleLS"))
 
         if (cart) {
+            // vérifier ici la présence de l'Id, si oui, vérif couleur, si couleur ajouter quantité ...
             cart.push(cartItem)
             console.log(cart)
             localStorage.setItem("articleLS", JSON.stringify(cart));
