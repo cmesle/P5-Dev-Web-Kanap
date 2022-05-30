@@ -19,10 +19,6 @@ function remplirFiche(canape) {
 
     let canapeColors = canape.colors
     canapeColors.forEach(couleur => {
-        // let options = document.createElement('option')
-        // options.setAttribute('value', couleur)
-        // options.textContent = couleur
-        // colorSelect.appendChild(options) 
         let options = `<option value="${couleur}">${couleur}</option>`
         colorSelect.innerHTML += options
     });
@@ -30,30 +26,44 @@ function remplirFiche(canape) {
 }
 
 let quantity = document.getElementById('quantity')
+// let cart = JSON.parse(localStorage.getItem("articleLS"))
+// let cartItem = [_id, colorSelect.value, quantity.value]
 
 document.getElementById('addToCart').addEventListener('click', verifFormulaire);
 function verifFormulaire (e) {
     e.preventDefault();
 
-    if (quantity.value==0) {alert('Combien de canapés souhaitez-vous commander ?')}
-    else if (colorSelect.options.selectedIndex==[0]) {
+    if (quantity.value==0) {
+        alert('Combien de canapés souhaitez-vous commander ?')
+    } else if (colorSelect.options.selectedIndex==[0]) {
         alert('Votre confiance nous honore, mais ne préférez-vous pas choisir vous-même la couleur du canapé ?')
-    } else {
+    } 
         let cartItem = [_id, colorSelect.value, quantity.value]
         let cart = JSON.parse(localStorage.getItem("articleLS"))
-
-        if (cart) {
+    
+    if (cart) {
+            for (i=0; i<cart.length; i++) {
+                if (cartItem[0]==cart[i][0]) {      // si l'ID du cartItem est ^présente dans le cart
+                    if (cartItem[1]==cart[i][1]) {       // et si la couleur est identique
+                        cart[i][3]+=cartItem[3]         // on ajoute la quantité de cartItem à la ligne de cart
+                    } else {
+                        cart.push(cartItem)
+                        console.log(cart)
+                        localStorage.setItem("articleLS", JSON.stringify(cart));
+                    }
+                }
             // vérifier ici la présence de l'Id, si oui, vérif couleur, si couleur ajouter quantité ...
-            cart.push(cartItem)
-            console.log(cart)
-            localStorage.setItem("articleLS", JSON.stringify(cart));
+            // cart.push(cartItem)
+            // console.log(cart)
+            // localStorage.setItem("articleLS", JSON.stringify(cart));
 
-        } else {
+        }
+     } else {
             let cart = []
             cart.push(cartItem)
             console.log(cart)
             localStorage.setItem("articleLS", JSON.stringify(cart));
-        }
+        
     }
 }
 
