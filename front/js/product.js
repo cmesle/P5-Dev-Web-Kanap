@@ -26,11 +26,8 @@ function remplirFiche(canape) {
 }
 
 let quantity = document.getElementById('quantity')
-// let cart = JSON.parse(localStorage.getItem("articleLS"))
-// let cartItem = [_id, colorSelect.value, quantity.value]
 
-document.getElementById('addToCart').addEventListener('click', verifFormulaire);
-function verifFormulaire (e) {
+document.getElementById('addToCart').addEventListener('click', function(e) {
     e.preventDefault();
 
     if (quantity.value==0) {
@@ -38,32 +35,25 @@ function verifFormulaire (e) {
     } else if (colorSelect.options.selectedIndex==[0]) {
         alert('Votre confiance nous honore, mais ne préférez-vous pas choisir vous-même la couleur du canapé ?')
     } 
-        let cartItem = [_id, colorSelect.value, quantity.value]
+        let newCartItem = [_id, colorSelect.value, parseInt(quantity.value)]
         let cart = JSON.parse(localStorage.getItem("articleLS"))
     
-    if (cart) {
-            for (i=0; i<cart.length; i++) {
-                if (cartItem[0]==cart[i][0]) {      // si l'ID du cartItem est ^présente dans le cart
-                    if (cartItem[1]==cart[i][1]) {       // et si la couleur est identique
-                        cart[i][3]+=cartItem[3]         // on ajoute la quantité de cartItem à la ligne de cart
-                    } else {
-                        cart.push(cartItem)
-                        console.log(cart)
-                        localStorage.setItem("articleLS", JSON.stringify(cart));
-                    }
-                }
-            // vérifier ici la présence de l'Id, si oui, vérif couleur, si couleur ajouter quantité ...
-            // cart.push(cartItem)
-            // console.log(cart)
-            // localStorage.setItem("articleLS", JSON.stringify(cart));
+        if (cart) {
 
+            let alreadyInCart = (cartItem) => cartItem[0]==newCartItem[0] && cartItem[1]==newCartItem[1]
+
+            if (cart.findIndex(alreadyInCart)==-1) {                        // l'article (id + couleur) n'existe pas dans le panier
+                cart.push(newCartItem)                                      // on l'ajoute au panier
+                localStorage.setItem("articleLS", JSON.stringify(cart))     // mise à jour du locaStorage
+            } else {
+                cart[cart.findIndex(alreadyInCart)][2] += newCartItem[2]    // sinon on ajoute la quantité du nouvel article à celle de la l'entrée existante
+                localStorage.setItem("articleLS", JSON.stringify(cart))     // mise à jour du locaStorage
+            }
+        } else {
+                let cart = []
+                cart.push(newCartItem)
+                localStorage.setItem("articleLS", JSON.stringify(cart));
+            
         }
-     } else {
-            let cart = []
-            cart.push(cartItem)
-            console.log(cart)
-            localStorage.setItem("articleLS", JSON.stringify(cart));
-        
-    }
-}
+})
 
