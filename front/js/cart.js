@@ -8,55 +8,6 @@ var nbArticle = 0
 let cart = JSON.parse(localStorage.getItem("articleLS"))//  récupération du localStorage
 const nbLigneLS = cart.length
 
-
-// var IDs = []
-// for (i=0; i < nbLigneLS; i++) {
-//   let id = cart[i][0]
-//   IDs.push(id)
-// }
-// IDs.sort()
-// tableauIDs()
-// function tableauIDs() {
-//   for (i=0; i < IDs.length  ; i++) {
-//     // console.log(i + ' ' + IDs.length)
-//     if (IDs.length>1 && IDs[0] == IDs[1]) {                       // si les 2 1ers éléments sont égaux,
-//       IDs.shift()                                   // on supprime le 1er
-//       // console.log(IDs)
-//     } else {                                        // sinon
-//       let toBeMoved = (IDs.splice(0,1)).toString()  // on ôte le 1er élémént
-//       IDs.push(toBeMoved)                           // pour le mettre à la fin du tableau
-//       // console.log(IDs)
-//     }
-//   }
-// }
-
-// //  AGREGATION DES LIGNES ARTICLE EN DOUBLON
-// /*  Si un même article (id + option) a été ajouté plus d'1 fois au localStorage,
-//     on les transforme en 1 seule entrée du panier */
-// var compteurNbArticlesAjoutes = 0
-// IDs.forEach(id => {
-//   let cartArticle = cart.filter(el => el[0]==id)
-//   cartArticle.sort()
-//   regrouper(cartArticle)
-//   cartArticle.forEach(ligne => {  //  pour ajouter des tableaux à cart, pas des tableaux de tableaux
-//     cart.push(ligne)
-//     compteurNbArticlesAjoutes ++
-//   })
-// })
-
-// function regrouper(cartArticle) {
-//   while(cartArticle.length>1 && (cartArticle[0][1]==cartArticle[1][1])) {
-//       cartArticle[0][2] = parseInt(cartArticle[0][2]) + parseInt(cartArticle[1][2])
-//       cartArticle.splice(1,1)
-//     }
-//   }
-
-// // MISE A JOUR DU CART
-//   cart = cart.splice(nbLigneLS, compteurNbArticlesAjoutes) // suppression des lignes d'origine
-// cart = cart.sort()                                              // tri par id
-
-
-
 cart.forEach(article => { // boucle d'affichage de chaque item du localStorage
 
   let _id = article[0] // récupération de l'ID du canapé
@@ -119,11 +70,11 @@ cart.forEach(article => { // boucle d'affichage de chaque item du localStorage
           let btn = supprBtns[i]
            btn.addEventListener('click', function(e) {
             e.preventDefault()
-            alert('yahoo')
+            alert('Vous êtes sur le point de supprimer un article')
             let currentArticle = btn.closest('article')  //  sélectionne l'article, trouve son index
             let currentArticleID = currentArticle.dataset['id']
             let currentArticleColor = currentArticle.dataset['color']
-            let i =0
+            let i=0
             let suppression = false
             while(i<cart.length && !suppression) {
               if(cart[i][0]==currentArticleID && cart[i][1]==currentArticleColor) {
@@ -140,21 +91,6 @@ cart.forEach(article => { // boucle d'affichage de chaque item du localStorage
       }
       
     }
-
-  // function supprimerArticle() {
-  //   let currentArticle = btn.closest('article')  //  sélectionne l'article, trouve son index
-  //   let currentArticleID = currentArticle.dataset['id']
-  //   let currentArticleColor = currentArticle.dataset['color']
-  //   let articleASupprimer
-  //   cart.forEach(article => {
-  //     if (article[0]==currentArticleID && article[1]==currentArticleColor) {
-  //       articleASupprimer = article
-  //     }
-  //   })
-  //   cart.splice(cart.indexOf(articleASupprimer), 1)    //  supprime l'article du cart
-  //   afficherArticle() //  relance la fonction d'affichage du panier
-  // }
-
 
 
 
