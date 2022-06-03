@@ -83,8 +83,13 @@ cart.forEach(article => { // boucle d'affichage de chaque item du localStorage
               }
               i++
             }
-            localStorage.setItem('articleLS', JSON.stringify(cart))
-            window.location = 'cart.html'
+            if (cart.length==0) {
+              localStorage.clear()
+              window.location = 'cart.html'
+            } else {
+              localStorage.setItem('articleLS', JSON.stringify(cart))
+              window.location = 'cart.html'
+            }
           })
 
 
