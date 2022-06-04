@@ -33,8 +33,9 @@ function remplirFiche(canape) {
 // -----------  AJOUT D'UN ARTICLE AU PANIER    -----------------------
 
 let quantity = document.getElementById('quantity')
+var commander = document.getElementById('addToCart')
 
-document.getElementById('addToCart').addEventListener('click', function(e) {
+commander.addEventListener('click', function(e) {
     e.preventDefault();
 
     if (quantity.value==0) {
@@ -52,11 +53,13 @@ document.getElementById('addToCart').addEventListener('click', function(e) {
             if (cart.findIndex(alreadyInCart)==-1) {                        // l'article (id + couleur) n'existe pas dans le panier
                 cart.push(newCartItem)                                      // on l'ajoute au panier
                 localStorage.setItem("articleLS", JSON.stringify(cart))     // mise à jour du locaStorage
-                alert('Vous avez ajouté ' + quantity.value + ' ' + nomCanape + ' ' + colorSelect.value + ' à votre panier')
+                warning('Vous avez ajouté ' + quantity.value + ' ' + nomCanape + ' ' + colorSelect.value + ' à votre panier')
+                // alert('Vous avez ajouté ' + quantity.value + ' ' + nomCanape + ' ' + colorSelect.value + ' à votre panier')
             } else {
                 cart[cart.findIndex(alreadyInCart)][2] += newCartItem[2]    // sinon on ajoute la quantité du nouvel article à celle de la l'entrée existante
                 localStorage.setItem("articleLS", JSON.stringify(cart))     // mise à jour du locaStorage
-                alert('Vous avez ajouté ' + quantity.value + ' autre(s) ' + nomCanape + ' ' + colorSelect.value + ' à votre panier')
+                warning('Vous avez ajouté ' + quantity.value + ' autre(s) ' + nomCanape + ' ' + colorSelect.value + ' à votre panier')
+                // alert('Vous avez ajouté ' + quantity.value + ' autre(s) ' + nomCanape + ' ' + colorSelect.value + ' à votre panier')
             }
 
         } else {
@@ -67,4 +70,35 @@ document.getElementById('addToCart').addEventListener('click', function(e) {
         }
     }
 })
+
+function warning(message) {
+    let popUp = document.createElement('div')
+    commander.appendChild(popUp)
+    popUp.style = ` display: block;
+                    position: absolute;
+                    left: 25%;
+                    top: ;
+                    width: 50%;
+                    padding: 20px;
+                    background: rgb(44, 62, 80);
+                    border-radius: 20px;
+                    border: 2px solid white;
+                    text-align: center;
+                    font-size: 14px;`
+    popUp.innerHTML = `<p>${message}</p>
+                      <button id='to__cart'>voir le panier</button>
+                      <button id='fermer'>fermer</button>`
+    let toCart = document.getElementById('to__cart')
+    toCart.addEventListener('click', function(e) {
+      e.preventDefault()
+      e.stopPropagation()
+      window.location = 'cart.html'
+    })
+    let fermer = document.getElementById('fermer')
+    fermer.addEventListener('click', function(e) {
+      e.preventDefault()
+      e.stopPropagation()
+      popUp.style.display = 'none'
+    })
+  }
 
