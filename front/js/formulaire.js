@@ -1,53 +1,118 @@
 const prenom = document.getElementById('firstName')
 const nom = document.getElementById('lastName')
-const adresse = document.getElementById('adress')
+const adresse = document.getElementById('address')
 const ville = document.getElementById('city')
 const email = document.getElementById('email')
+const commander = document.getElementById('order')
 
 const erreurPrenom = document.getElementById('firstNameErrorMsg')
 const erreurNom = document.getElementById('lastNameErrorMsg')
+const erreurAdresse = document.getElementById('addressErrorMsg')
 const erreurVille = document.getElementById('cityErrorMsg')
 const erreurEmail = document.getElementById('emailErrorMsg')
 
-// vérification du format des champs sans nombre ni caractère spéciaux firstName, lastName
-prenom.addEventListener('input', function(e) {
-    var value = e.target.value;
-    if (value = /^\w-$/) {
-        isValid = true;
+
+const erreurPrenomMsg = 'Votre prénom avec que des lettres svp'
+const erreurNomMsg = 'Votre nom avec que des lettres svp'
+const erreurAdresseMsg = 'Votre adresse ?'
+const erreurVilleMsg = 'Votre ville ?'
+const erreurEmailMsg = 'format attendu : exemple@exemple.ex'
+
+const textOnlyRegex = /^[A-Z][A-Za-zÀ-ÖØ-öø-ÿ' -]+/
+const numbersOnlyRegex = /[\D]/
+
+// vidage des champs au reload
+prenom.value =''
+nom.value =''
+adresse.value = ''
+ville.value = ''
+email.value = ''
+
+
+// vérification du format des champs sans nombre firstName, lastName, city
+prenom.addEventListener('blur', function(e) {
+    e.preventDefault
+    let value = e.target.value;
+    let test = textOnlyRegex.test(value)
+    if (!test) { 
+        erreurPrenom.textContent = erreurPrenomMsg
+        prenom.focus()
     } else {
-        isValid = false;
-        erreurPrenom.textContent += 'que des lettres svp'
-    }
-});
- nom.addEventListener('input', function(e) {
-    var value = e.target.value;
-    if (/^\w-$/.value) {
-        isValid = true;
-    } else {
-        isValid = false;
-        erreurNom.textContent += 'que des lettres svp'
+        erreurPrenom.textContent = ''
     }
 });
 
-// vérification du format du champs sans nombre city
-city.addEventListener('input', function(e) {
-    var value = e.target.value;
-    if (/^\w-$/.value) {
+nom.addEventListener('blur', function(e) {
+    let value = e.target.value;
+    let test = textOnlyRegex.test(value)
+    if (test) {
+        erreurNom.textContent = ''
+    } else {
+        erreurNom.textContent = erreurNomMsg
+    }
+});
+
+ville.addEventListener('blur', function(e) {
+    let value = e.target.value;
+    let test = textOnlyRegex.test(value)
+    if (test) {
         isValid = true;
-        console.log(value)
     } else {
         isValid = false;
-        erreurVille.textContent += 'que des lettres svp'
+        erreurVille.textContent = erreurVilleMsg
+    }
+});
+
+// vérification du champ adresse (ne peut pas contenir que des nombres)
+adresse.addEventListener('blur', function(e) {
+    let value = e.target.value;
+    let test = numbersOnlyRegex.test(value)
+    if (test) {
+        // isValid = true;
+    } else {
+        // isValid = false;
+        erreurAdresse.textContent = erreurAdresseMsg
     }
 });
 
 // vérification du format du champs email
-email.addEventListener('input', function(e) {
+email.addEventListener('change', function(e) {
     var value = e.target.value;
-    if (/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.value) {
-        isValid = true;
-    } else {
-        isValid = false;
-        erreurEmail.textContent += 'format attendu : exemple@exemple.ex'
+    var emailRegEx = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
+    var test = emailRegEx.test(value)
+    if(!test) {
+        erreurEmail.textContent = erreurEmailMsg
     }
-});
+})
+
+commander.addEventListener('click', function(e) {
+    e.preventDefault()
+    var contact = {
+        firstName : prenom.value,
+        lastName : nom.value,
+        address : adresse.value,
+        city : ville.value,
+        email : email.value
+    }
+    if (prenom.value=='' || nom.value=='' || adresse.value=='' || ville.value=='' || email.value=='') {
+        alert('ts champs obligatoires')
+    } else {
+        var contact = {
+            firstName : prenom.value,
+            lastName : nom.value,
+            address : adresse.value,
+            city : ville.value,
+            email : email.value
+        }
+    }
+
+    fetch('http://localhost:3000/api/products/order', {
+	method: 'POST',
+	headers: { 
+    'Accept': 'application/json', 
+    'Content-Type': 'application/json',
+    },
+	    body: JSON.stringify(contact)
+    })
+    // .then(localStorage.clear())
+})
