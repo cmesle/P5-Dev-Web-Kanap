@@ -49,24 +49,24 @@ commander.addEventListener('click', function(e) {
         if (cart) {
 
             let alreadyInCart = (cartItem) => cartItem[0]==newCartItem[0] && cartItem[1]==newCartItem[1]
+            
 
-            if (cart.findIndex(alreadyInCart)==-1) {                        // l'article (id + couleur) n'existe pas dans le panier
-                cart.push(newCartItem)                                      // on l'ajoute au panier
-                localStorage.setItem("articleLS", JSON.stringify(cart))     // mise à jour du locaStorage
-                warning('Vous avez ajouté ' + quantity.value + ' ' + nomCanape + ' ' + colorSelect.value + ' à votre panier')
-                // alert('Vous avez ajouté ' + quantity.value + ' ' + nomCanape + ' ' + colorSelect.value + ' à votre panier')
-            } else {
-                cart[cart.findIndex(alreadyInCart)][2] += newCartItem[2]    // sinon on ajoute la quantité du nouvel article à celle de la l'entrée existante
-                localStorage.setItem("articleLS", JSON.stringify(cart))     // mise à jour du locaStorage
-                warning('Vous avez ajouté ' + quantity.value + ' autre(s) ' + nomCanape + ' ' + colorSelect.value + ' à votre panier')
-                // alert('Vous avez ajouté ' + quantity.value + ' autre(s) ' + nomCanape + ' ' + colorSelect.value + ' à votre panier')
-            }
+            if (cart.findIndex(alreadyInCart)==-1) {                            // l'article (id + couleur) n'existe pas dans le panier
+                    cart.push(newCartItem)                                      // on l'ajoute au panier
+                    cart.sort()
+                    localStorage.setItem("articleLS", JSON.stringify(cart))     // mise à jour du locaStorage
+                    warning('Vous avez ajouté ' + quantity.value + ' ' + nomCanape + ' ' + colorSelect.value + ' à votre panier')
+                } else {
+                    cart[cart.findIndex(alreadyInCart)][2] += newCartItem[2]    // sinon on ajoute la quantité du nouvel article à celle de la l'entrée existante
+                    localStorage.setItem("articleLS", JSON.stringify(cart))     // mise à jour du locaStorage
+                    warning('Vous avez ajouté ' + quantity.value + ' autre(s) ' + nomCanape + ' ' + colorSelect.value + ' à votre panier')
+                }  
 
         } else {
                 let cart = []
                 cart.push(newCartItem)
                 localStorage.setItem("articleLS", JSON.stringify(cart));
-                alert('Vous avez ajouté ' + quantity.value + ' ' + nomCanape + ' ' + colorSelect.value + ' à votre panier')   
+                warning('Vous avez ajouté ' + quantity.value + '  ' + nomCanape + ' ' + colorSelect.value + ' à votre panier')   
         }
     }
 })
@@ -86,8 +86,8 @@ function warning(message) {
                     text-align: center;
                     font-size: 14px;`
     popUp.innerHTML = `<p>${message}</p>
-                      <button id='to__cart'>voir le panier</button>
-                      <button id='fermer'>fermer</button>`
+                      <button id='to__cart' style='font-size: 14px;'>voir le panier</button>
+                      <button id='fermer' style='font-size: 14px;'>fermer</button>`
     let toCart = document.getElementById('to__cart')
     toCart.addEventListener('click', function(e) {
       e.preventDefault()
