@@ -1,5 +1,4 @@
 var filledCart = document.getElementById('cart__items')
-var prixLigne = 0
 var nbArticle = 0
 var montantTotal = 0
 var totalQuantity = document.getElementById('totalQuantity')
@@ -13,7 +12,7 @@ const nbLigneLS = cart.length
 //  fecth ici sur tout products, puis "filtre" panier
 fetch('http://localhost:3000/api/products')
 .then(res=>res.json())
-.then(data => {afficherCommande(data), cartUpgrade(data)})
+.then(data => {afficherCommande(data)})
 
 
 // .then(data => {cartUpgrade(data)});
@@ -68,7 +67,7 @@ function prixTotal(prix, nombre) {
 
 //  ajout d'un délai pour garantir que le DOM est construit avant de pouvoir en sélectionner les éléments .deleteItem et .itemQuantity
   setTimeout(btnActivation, 500)
-  setTimeout(cartUpgrade, 500)
+  setTimeout(inputActivation, 500)
 //  SUPPRESSION D'UN ARTICLE
 function btnActivation() {
   var supprBtns = document.getElementsByClassName('deleteItem')
@@ -87,50 +86,69 @@ function btnActivation() {
   }
 
 //  ----------  MISE A JOUR QUANTITE ET PRIX TOTAUX ------------------
-const qteArticle = document.getElementsByClassName('itemQuantity')
+var qteArticle = document.getElementsByClassName('itemQuantity')
 
-function cartUpgrade() {
- 
+// function cartUpgrade() {
+function inputActivation() { 
   for (i=0 ; i < qteArticle.length ; i++) {       //  boucle qui sélectionne les input et leur ajoute un eventListener
     let qte = qteArticle[i]
     let qteInitiale = parseInt(qte.value)
-    // alert('qteInitiale : ' + qteInitiale)
-    let currentArticle = qte.closest('article')  //  sélectionne l'article
-    let _id = currentArticle.dataset['id']
+    // let currentArticle = qte.closest('article')  //  sélectionne l'article
+    // let _id = currentArticle.dataset['id']
     
-    fetch(`http://localhost:3000/api/products/${_id}`)
-    .then(res=> res.json())
-    .then(data => getPrice(data))
+    // fetch(`http://localhost:3000/api/products/${_id}`)
+    // .then(res=> res.json())
+    // .then(data => getPrice(data))
 
-    let prixCanape
-    function getPrice(canape) {
-      prixCanape = canape.price
-    }
+    // let prixCanape
+    // function getPrice(canape) {
+    //   prixCanape = canape.price
+    // }
 
     qte.addEventListener('change', function(e) {
       e.preventDefault()
-      let currentArticleID = currentArticle.dataset['id']
-      let currentArticleColor = currentArticle.dataset['color']
-      let newItemQuantity = qte.value
+      e.stopPropagation()
+      // let currentArticleID = currentArticle.dataset['id']
+      // let currentArticleColor = currentArticle.dataset['color']
 
       if (qte.value < 1 || qte.value > 100) {               //  si l'utilisateur entre une quantité < 0 ou > 100
-        qte.value = qteInitiale                             //  la quantité n'est pas changée
-      } else {                                              //  mise à jour :
-          let difference = newItemQuantity - qteInitiale
-          newTotalQuantity = parseInt(totalQuantity.textContent) + difference
-          totalQuantity.textContent = newTotalQuantity      // - du nombre total d'articles
-          newTotalPrice = parseInt(totalPrice.textContent) + (difference*prixCanape)
-          totalPrice.textContent = newTotalPrice            // - du montant total
-          // modification du cart
-          let ligneAModifier = (cartItem) => cartItem[0]==currentArticleID && cartItem[1]==currentArticleColor
-          cart[cart.findIndex(ligneAModifier)][2] += difference
-          localStorage.setItem('articleLS', JSON.stringify(cart))
-          
-          qteInitiale = qte.value                         //  réinitialisation de qteInitiale pour changements ultérieurs
+        qte.value = qteInitiale
+      } else {
+        let newItemQuantity = qte.value
+        let difference = newItemQuantity - qteInitiale
+        qteInitiale = qte.value                         //  réinitialisation de qteInitiale pour changements ultérieurs
+        quantiteTotale(difference)
+
+        //  TROUVER LE PRIX (paramètre fonction = réponse fetch)
+
+
+        // prixTotal(prix, difference) // NECESSITE DE TROUVER LE PRIX
       }
     })
-  }
 }
+
+      // if (qte.value < 1 || qte.value > 100) {               //  si l'utilisateur entre une quantité < 0 ou > 100
+      //   qte.value = qteInitiale                             //  la quantité n'est pas changée
+      // } else {                                              //  mise à jour :
+      //     let difference = newItemQuantity - qteInitiale
+      //     quantiteTotale(difference)
+      //     // let newTotalQuantity = 0
+      //     // alert(parseInt(totalQuantity.textContent))
+      //     // newTotalQuantity = parseInt(totalQuantity.textContent) + difference
+      //     // alert(newTotalQuantity)
+      //     // totalQuantity.textContent = newTotalQuantity      // - du nombre total d'articles
+      //     newTotalPrice = parseInt(totalPrice.textContent) + (difference*prixCanape)
+      //     totalPrice.textContent = newTotalPrice            // - du montant total
+      //     // modification du cart
+      //     // let ligneAModifier = (cartItem) => cartItem[0]==currentArticleID && cartItem[1]==currentArticleColor
+      //     // cart[cart.findIndex(ligneAModifier)][2] += difference
+      //     // localStorage.setItem('articleLS', JSON.stringify(cart))
+          
+      //     qteInitiale = qte.value                         //  réinitialisation de qteInitiale pour changements ultérieurs
+      // }
+    // })
+  }
+// }
 
 function supprimerArticle(currentArticleID, currentArticleColor) {
   let i=0
