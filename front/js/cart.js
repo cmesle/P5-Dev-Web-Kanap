@@ -94,16 +94,16 @@ function inputActivation() {
     let qte = qteArticle[i]
     let qteInitiale = parseInt(qte.value)
     let currentArticle = qte.closest('article')  //  sélectionne l'article
-    // let _id = currentArticle.dataset['id']
+    let _id = currentArticle.dataset['id']
     
-    // fetch(`http://localhost:3000/api/products/${_id}`)
-    // .then(res=> res.json())
-    // .then(data => getPrice(data))
+    fetch(`http://localhost:3000/api/products/${_id}`)
+    .then(res=> res.json())
+    .then(data => getPrice(data))
 
-    // let prixCanape
-    // function getPrice(canape) {
-    //   prixCanape = canape.price
-    // }
+    let prixCanape
+    function getPrice(canape) {
+      prixCanape = canape.price
+    }
 
     qte.addEventListener('change', function(e) {
       e.preventDefault()
@@ -123,38 +123,12 @@ function inputActivation() {
         cart[cart.findIndex(ligneAModifier)][2] += difference
         localStorage.setItem('articleLS', JSON.stringify(cart)) 
 
-        //  TROUVER LE PRIX (paramètre fonction = réponse fetch)
-
-
-        // prixTotal(prix, difference) // NECESSITE DE TROUVER LE PRIX
+        prixTotal(prixCanape, difference)
       }
     })
+  }
 }
 
-// MISE A JOUR DU CART
-
-      // if (qte.value < 1 || qte.value > 100) {               //  si l'utilisateur entre une quantité < 0 ou > 100
-      //   qte.value = qteInitiale                             //  la quantité n'est pas changée
-      // } else {                                              //  mise à jour :
-      //     let difference = newItemQuantity - qteInitiale
-      //     quantiteTotale(difference)
-      //     // let newTotalQuantity = 0
-      //     // alert(parseInt(totalQuantity.textContent))
-      //     // newTotalQuantity = parseInt(totalQuantity.textContent) + difference
-      //     // alert(newTotalQuantity)
-      //     // totalQuantity.textContent = newTotalQuantity      // - du nombre total d'articles
-      //     newTotalPrice = parseInt(totalPrice.textContent) + (difference*prixCanape)
-      //     totalPrice.textContent = newTotalPrice            // - du montant total
-      //     // modification du cart
-      //     // let ligneAModifier = (cartItem) => cartItem[0]==currentArticleID && cartItem[1]==currentArticleColor
-      //     // cart[cart.findIndex(ligneAModifier)][2] += difference
-      //     // localStorage.setItem('articleLS', JSON.stringify(cart))
-          
-      //     qteInitiale = qte.value                         //  réinitialisation de qteInitiale pour changements ultérieurs
-      // }
-    // })
-  }
-// }
 
 function supprimerArticle(currentArticleID, currentArticleColor) {
   let i=0
