@@ -77,8 +77,8 @@ function btnActivation() {
           e.preventDefault()
           if (confirm('Etes vous sûr de vouloir supprimer cet article ?')) {
             let currentArticle = btn.closest('article')  //  sélectionne l'article, trouve son index
-            const currentArticleID = currentArticle.dataset['id']
-            const currentArticleColor = currentArticle.dataset['color']
+            let currentArticleID = currentArticle.dataset['id']
+            let currentArticleColor = currentArticle.dataset['color']
             supprimerArticle(currentArticleID, currentArticleColor)
           }
         })
@@ -93,7 +93,7 @@ function inputActivation() {
   for (i=0 ; i < qteArticle.length ; i++) {       //  boucle qui sélectionne les input et leur ajoute un eventListener
     let qte = qteArticle[i]
     let qteInitiale = parseInt(qte.value)
-    // let currentArticle = qte.closest('article')  //  sélectionne l'article
+    let currentArticle = qte.closest('article')  //  sélectionne l'article
     // let _id = currentArticle.dataset['id']
     
     // fetch(`http://localhost:3000/api/products/${_id}`)
@@ -108,16 +108,20 @@ function inputActivation() {
     qte.addEventListener('change', function(e) {
       e.preventDefault()
       e.stopPropagation()
-      // let currentArticleID = currentArticle.dataset['id']
-      // let currentArticleColor = currentArticle.dataset['color']
+      let currentArticleID = currentArticle.dataset['id']
+      let currentArticleColor = currentArticle.dataset['color']
 
       if (qte.value < 1 || qte.value > 100) {               //  si l'utilisateur entre une quantité < 0 ou > 100
         qte.value = qteInitiale
       } else {
         let newItemQuantity = qte.value
         let difference = newItemQuantity - qteInitiale
-        qteInitiale = qte.value                         //  réinitialisation de qteInitiale pour changements ultérieurs
+        qteInitiale = qte.value                            //  réinitialisation de qteInitiale pour changements ultérieurs
         quantiteTotale(difference)
+                                                           // mise à jour du localStorage
+        let ligneAModifier = (cartItem) => cartItem[0]==currentArticleID && cartItem[1]==currentArticleColor
+        cart[cart.findIndex(ligneAModifier)][2] += difference
+        localStorage.setItem('articleLS', JSON.stringify(cart)) 
 
         //  TROUVER LE PRIX (paramètre fonction = réponse fetch)
 
@@ -126,6 +130,8 @@ function inputActivation() {
       }
     })
 }
+
+// MISE A JOUR DU CART
 
       // if (qte.value < 1 || qte.value > 100) {               //  si l'utilisateur entre une quantité < 0 ou > 100
       //   qte.value = qteInitiale                             //  la quantité n'est pas changée
