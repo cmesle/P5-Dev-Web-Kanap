@@ -95,24 +95,28 @@ commander.addEventListener('click', function(e) {
         email : email.value
     }
     if (prenom.value=='' || nom.value=='' || adresse.value=='' || ville.value=='' || email.value=='') {
-        alert('ts champs obligatoires')
+        alert('tous les champs sont obligatoires')
     } else {
         var contact = {
             firstName : prenom.value,
-            lastName : nom.value,
-            address : adresse.value,
-            city : ville.value,
-            email : email.value
+            lastName: nom.value,
+            address: adresse.value,
+            city: ville.value,
+            email: email.value
         }
     }
 
+
+    // ENVOI DES DONNEES A L'API
+
+    let commande = {contact, products}                      // création de l'objet à envoyer
+
     fetch('http://localhost:3000/api/products/order', {
-	method: 'POST',
-	headers: { 
-    'Accept': 'application/json', 
-    'Content-Type': 'application/json',
-    },
-	    body: JSON.stringify(contact)
+        method: 'POST',
+        headers: { 
+        'Accept': 'application/json', 
+        'Content-Type': 'application/json',
+        },
+            body: JSON.stringify(commande)
     })
-    // .then(localStorage.clear())
 })
