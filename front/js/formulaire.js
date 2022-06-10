@@ -22,11 +22,11 @@ const textOnlyRegex = /^[A-Z][A-Za-zÀ-ÖØ-öø-ÿ' -]+/
 const numbersOnlyRegex = /[\D]/
 
 // vidage des champs au reload
-prenom.value =''
-nom.value =''
-adresse.value = ''
-ville.value = ''
-email.value = ''
+// prenom.value =''
+// nom.value =''
+// adresse.value = ''
+// ville.value = ''
+// email.value = ''
 
 
 // vérification du format des champs sans nombre firstName, lastName, city
@@ -107,8 +107,7 @@ commander.addEventListener('click', function(e) {
     }
 
 
-    // ENVOI DES DONNEES A L'API
-
+    // ENVOI DES DONNEES A L'API ET CHANGEMENT DE PAGE
     let commande = {contact, products}                      // création de l'objet à envoyer
 
     fetch('http://localhost:3000/api/products/order', {
@@ -119,4 +118,10 @@ commander.addEventListener('click', function(e) {
         },
             body: JSON.stringify(commande)
     })
+    .then(async (response) => {
+        let orderID = await response.json()
+        let param = orderID.orderId
+        window.location = 'confirmation.html?orderID='+param
+    })
 })
+
