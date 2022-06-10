@@ -88,7 +88,6 @@ function btnActivation() {
 //  ----------  MISE A JOUR QUANTITE ET PRIX TOTAUX ------------------
 var qteArticle = document.getElementsByClassName('itemQuantity')
 
-// function cartUpgrade() {
 function inputActivation() { 
   for (i=0 ; i < qteArticle.length ; i++) {       //  boucle qui sélectionne les input et leur ajoute un eventListener
     let qte = qteArticle[i]
@@ -150,6 +149,17 @@ function supprimerArticle(currentArticleID, currentArticleColor) {
   }
 }
 
+//  CREATION DU TABLEAU A ENVOYER A L'API
+let products = JSON.parse(localStorage.getItem("articleLS"))
+
+products.forEach(cartItem => {
+  cartItem.pop()
+  cartItem.pop()
+})
+
+for (i=0; i<products.length; i++) {
+  products[i] = products[i].toString()
+}
 
 // var goOn
 //  function warning(message) {
