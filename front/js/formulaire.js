@@ -28,6 +28,7 @@ const numbersOnlyRegex = /[\D]/
 // ville.value = ''
 // email.value = ''
 
+//  ----------  VALIDATION DU FORMAT DES SAISIES UTILISATEURS DANS LES CHAMPS DU FORMULAIRE ------------------
 
 // vérification du format des champs sans nombre firstName, lastName, city
 prenom.addEventListener('blur', function(e) {
@@ -85,6 +86,9 @@ email.addEventListener('change', function(e) {
     }
 })
 
+
+//  ----------  BOUTON "COMMANDER" : VALIDATION DU FORMULAIRE ET ENVOI DES DONNEES A L'API  ------------------
+
 commander.addEventListener('click', function(e) {
     e.preventDefault()
     var contact = {
@@ -106,9 +110,8 @@ commander.addEventListener('click', function(e) {
         }
     }
 
-
-    // ENVOI DES DONNEES A L'API ET CHANGEMENT DE PAGE
-    let commande = {contact, products}                      // création de l'objet à envoyer
+    // envoi des données à l'API et redirection vers la page confirmation
+    let commande = {contact, products}                      //  création de l'objet à envoyer
 
     fetch('http://localhost:3000/api/products/order', {
         method: 'POST',
@@ -118,7 +121,7 @@ commander.addEventListener('click', function(e) {
         },
             body: JSON.stringify(commande)
     })
-    .then(async (response) => {
+    .then(async (response) => {                             //  redirection vers la page confirmation avec orderId
         let orderID = await response.json()
         let param = orderID.orderId
         window.location = 'confirmation.html?orderID='+param

@@ -32,8 +32,8 @@ function remplirFiche(canape) {
 
 // -----------  AJOUT D'UN ARTICLE AU PANIER    -----------------------
 
-let quantity = document.getElementById('quantity')
-var commander = document.getElementById('addToCart')
+const quantity = document.getElementById('quantity')
+const commander = document.getElementById('addToCart')
 
 commander.addEventListener('click', function(e) {
     e.preventDefault();
