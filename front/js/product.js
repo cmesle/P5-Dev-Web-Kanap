@@ -57,7 +57,9 @@ commander.addEventListener('click', function(e) {
                     localStorage.setItem("articleLS", JSON.stringify(cart))     // mise à jour du locaStorage
                     warning('Vous avez ajouté ' + quantity.value + ' ' + nomCanape + ' ' + colorSelect.value + ' à votre panier')
                 } else {
-                    cart[cart.findIndex(alreadyInCart)][2] += newCartItem[2]    // sinon on ajoute la quantité du nouvel article à celle de la l'entrée existante
+                    let truc = parseInt(cart[cart.findIndex(alreadyInCart)][2])
+                    truc += newCartItem[2]    // sinon on ajoute la quantité du nouvel article à celle de la l'entrée existante
+                    cart[cart.findIndex(alreadyInCart)][2] = truc
                     localStorage.setItem("articleLS", JSON.stringify(cart))     // mise à jour du locaStorage
                     warning('Vous avez ajouté ' + quantity.value + ' autre(s) ' + nomCanape + ' ' + colorSelect.value + ' à votre panier')
                 }  
