@@ -1,3 +1,5 @@
+function formulaire() {
+
 const prenom = document.getElementById('firstName')
 const nom = document.getElementById('lastName')
 const adresse = document.getElementById('address')
@@ -31,7 +33,7 @@ const numbersOnlyRegex = /[\D]/
 //  ----------  VALIDATION DU FORMAT DES SAISIES UTILISATEURS DANS LES CHAMPS DU FORMULAIRE ------------------
 
 // vérification du format des champs sans nombre firstName, lastName, city
-prenom.addEventListener('blur', function(e) {
+prenom.addEventListener('input', function(e) {
     e.preventDefault
     let value = e.target.value;
     let test = textOnlyRegex.test(value)
@@ -57,6 +59,7 @@ ville.addEventListener('blur', function(e) {
     let value = e.target.value;
     let test = textOnlyRegex.test(value)
     if (test) {
+        erreurVille.textContent = ''
         isValid = true;
     } else {
         isValid = false;
@@ -69,6 +72,7 @@ adresse.addEventListener('blur', function(e) {
     let value = e.target.value;
     let test = numbersOnlyRegex.test(value)
     if (test) {
+        erreurAdresse.textContent = ''
         // isValid = true;
     } else {
         // isValid = false;
@@ -108,8 +112,7 @@ commander.addEventListener('click', function(e) {
             city: ville.value,
             email: email.value
         }
-    }
-
+        
     // envoi des données à l'API et redirection vers la page confirmation
     let commande = {contact, products}                      //  création de l'objet à envoyer
 
@@ -126,5 +129,9 @@ commander.addEventListener('click', function(e) {
         let param = orderID.orderId
         window.location = 'confirmation.html?orderID='+param
     })
+    }
+
 })
+
+}
 
