@@ -1,11 +1,8 @@
 // -----------  AFFICHAGE DES DONNEES PRODUIT   -----------------------
 
 const pageCourante = document.location.href;
-// let debut = pageCourante.lastIndexOf('=');
-// let _id = pageCourante.substring(debut+1);
-let _id = pageCourante.substring(pageCourante.lastIndexOf('=') + 1);
-// let url = new URL(pageCourante)
-// let _id = url.searchParams.get('id');
+let url = new URL(pageCourante)
+let _id = url.searchParams.get('id');
 
 let nomCanape
 let colorSelect = document.getElementById('colors')
