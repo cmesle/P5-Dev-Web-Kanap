@@ -1,6 +1,6 @@
 fetch('http://localhost:3000/api/products')
-.then(res=>res.json())
-.then(data=> {afficherCanape(data)});
+    .then(res => res.json())
+    .then(data => { afficherCanape(data) });
 
 
 function afficherCanape(tableauCanapes) {
