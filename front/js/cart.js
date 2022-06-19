@@ -1,8 +1,8 @@
-var filledCart = document.getElementById('cart__items')
-var nbArticle = 0
-var montantTotal = 0
-var totalQuantity = document.getElementById('totalQuantity')
-var totalPrice = document.getElementById('totalPrice')
+const filledCart = document.getElementById('cart__items')
+let nbArticle = 0
+let montantTotal = 0
+const totalQuantity = document.getElementById('totalQuantity')
+const totalPrice = document.getElementById('totalPrice')
 
 //  ----------  AFFICHAGE DES CANAPES AJOUTES AU LOCALSTORAGE ------------------
 
@@ -87,7 +87,7 @@ setTimeout(btnActivation, 500)
 setTimeout(inputActivation, 500)
 //  ACTIVE LES BOUTONS SUPPRIMER (.deleteItem)
 function btnActivation() {
-  var supprBtns = document.getElementsByClassName('deleteItem')
+  let supprBtns = document.getElementsByClassName('deleteItem')
   for (i = 0; i < supprBtns.length; i++) {
     let btn = supprBtns[i]
     btn.addEventListener('click', function (e) {
@@ -105,7 +105,7 @@ function btnActivation() {
 
 //  ----------  MISE A JOUR QUANTITE ET PRIX TOTAUX ------------------
 
-var qteArticle = document.getElementsByClassName('itemQuantity')
+let qteArticle = document.getElementsByClassName('itemQuantity')
 
 //  ACTIVE LES INPUT QUANTITE  (.itemQuantity)
 function inputActivation() {
@@ -263,7 +263,7 @@ function formulaire() {
     } else if (!prenomOK || !nomOK || !adresseOK || !villeOK || !emailOK) {
       alert('certains des champs sont mal remplis')
     } else {
-      var contact = {
+      let contact = {
         firstName: prenom.value,
         lastName: nom.value,
         address: adresse.value,

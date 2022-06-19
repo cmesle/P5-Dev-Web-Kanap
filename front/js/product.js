@@ -4,8 +4,8 @@ const pageCourante = document.location.href;
 let url = new URL(pageCourante)
 let _id = url.searchParams.get('id');
 
-var nomCanape                                                   //  variables globales utilisées par
-var colorSelect = document.getElementById('colors')             //  toutes les fonctions de la page
+let nomCanape                                                   //  variables globales utilisées par
+let colorSelect = document.getElementById('colors')             //  toutes les fonctions de la page
 
 fetch(`http://localhost:3000/api/products/${_id}`)
     .then(res => res.json())
