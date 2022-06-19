@@ -10,6 +10,9 @@ let colorSelect = document.getElementById('colors')             //  toutes les f
 fetch(`http://localhost:3000/api/products/${_id}`)
     .then(res => res.json())
     .then(data => { remplirFiche(data) })
+    .catch(function (error) {
+        return error;
+    })
 
 function remplirFiche(canape) {
     let image = document.getElementsByClassName('item__img')

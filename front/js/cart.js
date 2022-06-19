@@ -11,6 +11,9 @@ let cart = JSON.parse(localStorage.getItem("articleLS"))//  récupération du lo
 fetch('http://localhost:3000/api/products')
   .then(res => res.json())
   .then(data => { afficherCommande(data) })
+  .catch(function (error) {
+    return error;
+  });
 
 function afficherCommande(tableauCanapes) {
   tableauCanapes.forEach(canape => {
