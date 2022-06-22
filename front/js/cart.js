@@ -185,22 +185,22 @@ function inputActivation() {
 
 
 
-const erreurPrenom = document.getElementById('firstNameErrorMsg')
-const erreurNom = document.getElementById('lastNameErrorMsg')
-const erreurAdresse = document.getElementById('addressErrorMsg')
-const erreurVille = document.getElementById('cityErrorMsg')
-const erreurEmail = document.getElementById('emailErrorMsg')
+// const erreurPrenom = document.getElementById('firstNameErrorMsg')
+// const erreurNom = document.getElementById('lastNameErrorMsg')
+// const erreurAdresse = document.getElementById('addressErrorMsg')
+// const erreurVille = document.getElementById('cityErrorMsg')
+// const erreurEmail = document.getElementById('emailErrorMsg')
 
 
-const erreurPrenomMsg = 'Votre prénom ne doit contenir que des lettres svp'
-const erreurNomMsg = 'Votre nom ne doit contenir que des lettres svp'
-const erreurAdresseMsg = 'Ceci ne semble pas être une adresse correcte'
-const erreurVilleMsg = 'Ceci ne semble pas être le nom d\'une ville'
-const erreurEmailMsg = 'format attendu : exemple@exemple.ex'
+// const erreurPrenomMsg = 'Votre prénom ne doit contenir que des lettres svp'
+// const erreurNomMsg = 'Votre nom ne doit contenir que des lettres svp'
+// const erreurAdresseMsg = 'Ceci ne semble pas être une adresse correcte'
+// const erreurVilleMsg = 'Ceci ne semble pas être le nom d\'une ville'
+// const erreurEmailMsg = 'format attendu : exemple@exemple.ex'
 
-const textOnlyRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ, '-]+$/
-const adressRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ0-9, '-]+$/
-const emailRegEx = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
+// const textOnlyRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ, '-]+$/
+// const adressRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ0-9, '-]+$/
+// const emailRegEx = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
 
 
 //  ----------  VALIDATION DU FORMAT DES SAISIES UTILISATEURS DANS LES CHAMPS DU FORMULAIRE ------------------
@@ -212,6 +212,24 @@ let villeOK = false
 let emailOK = false
 
 function formulaire() {
+
+  const erreurPrenom = document.getElementById('firstNameErrorMsg')
+  const erreurNom = document.getElementById('lastNameErrorMsg')
+  const erreurAdresse = document.getElementById('addressErrorMsg')
+  const erreurVille = document.getElementById('cityErrorMsg')
+  const erreurEmail = document.getElementById('emailErrorMsg')
+
+
+  const erreurPrenomMsg = 'Votre prénom ne doit contenir que des lettres svp'
+  const erreurNomMsg = 'Votre nom ne doit contenir que des lettres svp'
+  const erreurAdresseMsg = 'Ceci ne semble pas être une adresse correcte'
+  const erreurVilleMsg = 'Ceci ne semble pas être le nom d\'une ville'
+  const erreurEmailMsg = 'format attendu : exemple@exemple.ex'
+
+  const textOnlyRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ, '-]+$/
+  const adressRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ0-9, '-]+$/
+  const emailRegEx = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
+
   // vérification du format des champs sans nombre firstName, lastName, city
   prenom.addEventListener('blur', function (e) {
     e.preventDefault
