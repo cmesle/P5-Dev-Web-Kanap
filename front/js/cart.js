@@ -15,7 +15,9 @@ function main() {
 }
 
 
-
+/*  ------------------------
+          PANIER
+------------------------- */
 
 
 //  ----------  AFFICHAGE DES CANAPES AJOUTES AU LOCALSTORAGE ------------------
@@ -177,15 +179,11 @@ function inputActivation() {
 }
 
 
+/*  ------------------------
+        FORMULAIRE
+------------------------- */
 
 
-
-
-// const prenom = document.getElementById('firstName')
-// const nom = document.getElementById('lastName')
-// const adresse = document.getElementById('address')
-// const ville = document.getElementById('city')
-// const email = document.getElementById('email')
 
 const erreurPrenom = document.getElementById('firstNameErrorMsg')
 const erreurNom = document.getElementById('lastNameErrorMsg')
@@ -337,4 +335,12 @@ function commander() {
   })
 
 }
+
+
+//  ----------  VIDAGE DU PANIER  ------------------
+
+function viderPanier() {
+  localStorage.clear()
+}
+
 
