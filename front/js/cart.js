@@ -300,7 +300,9 @@ function formulaire() {
   })
 }
 
-//  ----------  BOUTON "COMMANDER" : VALIDATION DU FORMULAIRE ET ENVOI DES DONNEES A L'API  ------------------
+//  ----------  BOUTON "COMMANDER"  ------------------
+
+let contact = {}
 function commander() {
   const btnCommander = document.getElementById('order')
   btnCommander.addEventListener('click', function (e) {
@@ -311,7 +313,7 @@ function commander() {
     } else if (!prenomOK || !nomOK || !adresseOK || !villeOK || !emailOK) {
       alert('certains des champs sont mal remplis')
     } else {
-      let contact = {
+      contact = {
         firstName: prenom.value,
         lastName: nom.value,
         address: adresse.value,
@@ -319,40 +321,50 @@ function commander() {
         email: email.value
       }
 
-      //  ----------  CREATION DE L'OBJET A ENVOYER A L'API ------------------
-
-      let products = JSON.parse(localStorage.getItem("articleLS"))
-
-      products.forEach(cartItem => {
-        cartItem.pop()
-        cartItem.pop()
-      })
-
-      // mise au format des éléments du tableau products (de tableau de tableaux au format attendu : tableau de strings )
-      for (i = 0; i < products.length; i++) {
-        products[i] = products[i].toString()
-      }
-      // envoi des données à l'API et redirection vers la page confirmation
-      let commande = { contact, products }                      //  création de l'objet à envoyer
-
-      fetch('http://localhost:3000/api/products/order', {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(commande)
-      })
-        .then(async (response) => {                             //  redirection vers la page confirmation avec orderId
-          let orderID = await response.json()
-          let param = orderID.orderId
-          window.location = 'confirmation.html?orderID=' + param
-        })
+      donneesAEnvoyer()
+      // viderPanier()
     }
+  })
+}
 
+
+//  ----------  PREPARATION TABLEAU PRODUCTS  ------------------
+
+let products = JSON.parse(localStorage.getItem("articleLS"))
+function creationProducts() {
+  products.forEach(cartItem => {
+    cartItem.pop()
+    cartItem.pop()
   })
 
+  // mise au format des éléments du tableau products (de tableau de tableaux au format attendu : tableau de strings )
+  for (i = 0; i < products.length; i++) {
+    products[i] = products[i].toString()
+  }
 }
+
+
+//  ----------  ENVOI DES DONNEES A L'API  ------------------
+
+function donneesAEnvoyer() {
+  creationProducts()
+  let commande = { contact, products }                        //  création de l'objet à envoyer
+
+  fetch('http://localhost:3000/api/products/order', {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(commande)
+  })
+    .then(async (response) => {                              //  redirection vers la page confirmation avec orderId
+      let orderID = await response.json()
+      let param = orderID.orderId
+      window.location = 'confirmation.html?orderID=' + param
+    })
+}
+
 
 
 //  ----------  VIDAGE DU PANIER  ------------------
