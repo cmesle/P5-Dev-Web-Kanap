@@ -1,3 +1,9 @@
+const prenom = document.getElementById('firstName')
+const nom = document.getElementById('lastName')
+const adresse = document.getElementById('address')
+const ville = document.getElementById('city')
+const email = document.getElementById('email')
+
 main()
 
 function main() {
@@ -5,6 +11,7 @@ function main() {
   setTimeout(btnActivation, 500)              //  ajout d'un délai pour garantir que le DOM est construit avant de 
   setTimeout(inputActivation, 500)            //  pouvoir en sélectionner les éléments .deleteItem et .itemQuantity
   formulaire()
+  commander()
 }
 
 
@@ -172,41 +179,41 @@ function inputActivation() {
 
 
 
+
+
+// const prenom = document.getElementById('firstName')
+// const nom = document.getElementById('lastName')
+// const adresse = document.getElementById('address')
+// const ville = document.getElementById('city')
+// const email = document.getElementById('email')
+
+const erreurPrenom = document.getElementById('firstNameErrorMsg')
+const erreurNom = document.getElementById('lastNameErrorMsg')
+const erreurAdresse = document.getElementById('addressErrorMsg')
+const erreurVille = document.getElementById('cityErrorMsg')
+const erreurEmail = document.getElementById('emailErrorMsg')
+
+
+const erreurPrenomMsg = 'Votre prénom ne doit contenir que des lettres svp'
+const erreurNomMsg = 'Votre nom ne doit contenir que des lettres svp'
+const erreurAdresseMsg = 'Ceci ne semble pas être une adresse correcte'
+const erreurVilleMsg = 'Ceci ne semble pas être le nom d\'une ville'
+const erreurEmailMsg = 'format attendu : exemple@exemple.ex'
+
+const textOnlyRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ, '-]+$/
+const adressRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ0-9, '-]+$/
+const emailRegEx = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
+
+
+//  ----------  VALIDATION DU FORMAT DES SAISIES UTILISATEURS DANS LES CHAMPS DU FORMULAIRE ------------------
+
+let prenomOK = false
+let nomOK = false
+let adresseOK = false
+let villeOK = false
+let emailOK = false
+
 function formulaire() {
-
-  const prenom = document.getElementById('firstName')
-  const nom = document.getElementById('lastName')
-  const adresse = document.getElementById('address')
-  const ville = document.getElementById('city')
-  const email = document.getElementById('email')
-  const commander = document.getElementById('order')
-
-  const erreurPrenom = document.getElementById('firstNameErrorMsg')
-  const erreurNom = document.getElementById('lastNameErrorMsg')
-  const erreurAdresse = document.getElementById('addressErrorMsg')
-  const erreurVille = document.getElementById('cityErrorMsg')
-  const erreurEmail = document.getElementById('emailErrorMsg')
-
-
-  const erreurPrenomMsg = 'Votre prénom ne doit contenir que des lettres svp'
-  const erreurNomMsg = 'Votre nom ne doit contenir que des lettres svp'
-  const erreurAdresseMsg = 'Ceci ne semble pas être une adresse correcte'
-  const erreurVilleMsg = 'Ceci ne semble pas être le nom d\'une ville'
-  const erreurEmailMsg = 'format attendu : exemple@exemple.ex'
-
-  const textOnlyRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ, '-]+$/
-  const adressRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ0-9, '-]+$/
-  const emailRegEx = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
-
-
-  //  ----------  VALIDATION DU FORMAT DES SAISIES UTILISATEURS DANS LES CHAMPS DU FORMULAIRE ------------------
-
-  let prenomOK = false
-  let nomOK = false
-  let adresseOK = false
-  let villeOK = false
-  let emailOK = false
-
   // vérification du format des champs sans nombre firstName, lastName, city
   prenom.addEventListener('blur', function (e) {
     e.preventDefault
@@ -275,11 +282,12 @@ function formulaire() {
     }
     console.log('email : ' + emailOK)
   })
+}
 
-
-  //  ----------  BOUTON "COMMANDER" : VALIDATION DU FORMULAIRE ET ENVOI DES DONNEES A L'API  ------------------
-
-  commander.addEventListener('click', function (e) {
+//  ----------  BOUTON "COMMANDER" : VALIDATION DU FORMULAIRE ET ENVOI DES DONNEES A L'API  ------------------
+function commander() {
+  const btnCommander = document.getElementById('order')
+  btnCommander.addEventListener('click', function (e) {
     e.preventDefault()
 
     if (prenom.value == '' || nom.value == '' || adresse.value == '' || ville.value == '' || email.value == '') {
