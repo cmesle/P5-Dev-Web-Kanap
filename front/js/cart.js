@@ -363,6 +363,9 @@ function donneesAEnvoyer() {
       let param = orderID.orderId
       window.location = 'confirmation.html?orderID=' + param
     })
+    .catch(function (error) {
+      console.log('Une erreur est survenue lors de l\'envoi des données : ' + error)
+    })
 }
 
 
