@@ -187,10 +187,10 @@ function formulaire() {
   const erreurEmail = document.getElementById('emailErrorMsg')
 
 
-  const erreurPrenomMsg = 'Votre prénom avec que des lettres svp'
-  const erreurNomMsg = 'Votre nom avec que des lettres svp'
-  const erreurAdresseMsg = 'Votre adresse ?'
-  const erreurVilleMsg = 'Votre ville ?'
+  const erreurPrenomMsg = 'Votre prénom ne doit contenir que des lettres svp'
+  const erreurNomMsg = 'Votre nom ne doit contenir que des lettres svp'
+  const erreurAdresseMsg = 'Ceci ne semble pas être une adresse correcte'
+  const erreurVilleMsg = 'Ceci ne semble pas être le nom d\'une ville'
   const erreurEmailMsg = 'format attendu : exemple@exemple.ex'
 
   const textOnlyRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ, '-]+$/
@@ -214,14 +214,14 @@ function formulaire() {
     if (test) {
       erreurPrenom.textContent = ''
       prenomOK = true
-      console.log(prenomOK)
     } else {
       erreurPrenom.textContent = erreurPrenomMsg
       prenomOK = false
     }
+    console.log('prenom : ' + prenomOK)
   })
 
-  nom.addEventListener('change', function (e) {
+  nom.addEventListener('blur', function (e) {
     let value = e.target.value;
     let test = textOnlyRegex.test(value)
     if (test) {
@@ -231,9 +231,10 @@ function formulaire() {
       erreurNom.textContent = erreurNomMsg
       nomOK = false
     }
+    console.log('nom : ' + nomOK)
   })
 
-  ville.addEventListener('input', function (e) {
+  ville.addEventListener('blur', function (e) {
     let value = e.target.value;
     let test = textOnlyRegex.test(value)
     if (test) {
@@ -243,10 +244,11 @@ function formulaire() {
       erreurVille.textContent = erreurVilleMsg
       villeOK = false
     }
+    console.log('ville : ' + villeOK)
   })
 
   // vérification du champ adresse (lettres et chiffres)
-  adresse.addEventListener('input', function (e) {
+  adresse.addEventListener('blur', function (e) {
     let value = e.target.value;
     let test = adressRegex.test(value)
     if (test) {
@@ -256,21 +258,21 @@ function formulaire() {
       erreurAdresse.textContent = erreurAdresseMsg
       adresseOK = false
     }
+    console.log('adresse : ' + adresseOK)
   });
 
   // vérification du format du champs email
-  email.addEventListener('input', function (e) {
+  email.addEventListener('blur', function (e) {
     let value = e.target.value;
     let test = emailRegEx.test(value)
     if (test) {
       erreurEmail.textContent = ''
       emailOK = true
-
     } else {
       erreurEmail.textContent = erreurEmailMsg
       emailOK = false
     }
-    console.log(emailOK)
+    console.log('email : ' + emailOK)
   })
 
 
