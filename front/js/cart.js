@@ -15,14 +15,14 @@ function main() {
 }
 
 
-/*  ------------------------
-          PANIER
-------------------------- */
+/*  ------------------------------------------------------------------------------------------------
+                                               PANIER
+------------------------------------------------------------------------------------------------- */
 
 
 //  ----------  AFFICHAGE DES CANAPES AJOUTES AU LOCALSTORAGE ------------------
 
-let cart = JSON.parse(localStorage.getItem("articleLS"))//  récupération du localStorage
+let cart = JSON.parse(localStorage.getItem("articleLS"))            //  récupération du localStorage
 
 function recuperationDonnees() {
 
@@ -71,7 +71,6 @@ function afficherCommande(tableauCanapes) {
       }
     }
   })
-  // formulaire()
 }
 
 //  AFFICHE LE NOMBRE D'ARTICLES DANS LA COMMANDE
@@ -179,31 +178,11 @@ function inputActivation() {
 }
 
 
-/*  ------------------------
-        FORMULAIRE
-------------------------- */
+/*  ------------------------------------------------------------------------------------------------
+                                          FORMULAIRE
+------------------------------------------------------------------------------------------------- */
 
-
-
-// const erreurPrenom = document.getElementById('firstNameErrorMsg')
-// const erreurNom = document.getElementById('lastNameErrorMsg')
-// const erreurAdresse = document.getElementById('addressErrorMsg')
-// const erreurVille = document.getElementById('cityErrorMsg')
-// const erreurEmail = document.getElementById('emailErrorMsg')
-
-
-// const erreurPrenomMsg = 'Votre prénom ne doit contenir que des lettres svp'
-// const erreurNomMsg = 'Votre nom ne doit contenir que des lettres svp'
-// const erreurAdresseMsg = 'Ceci ne semble pas être une adresse correcte'
-// const erreurVilleMsg = 'Ceci ne semble pas être le nom d\'une ville'
-// const erreurEmailMsg = 'format attendu : exemple@exemple.ex'
-
-// const textOnlyRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ, '-]+$/
-// const adressRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ0-9, '-]+$/
-// const emailRegEx = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
-
-
-//  ----------  VALIDATION DU FORMAT DES SAISIES UTILISATEURS DANS LES CHAMPS DU FORMULAIRE ------------------
+//  ----------  VALIDATION DU FORMAT DES SAISIES UTILISATEUR DANS LES CHAMPS DU FORMULAIRE ------------------
 
 let prenomOK = false
 let nomOK = false
@@ -367,7 +346,6 @@ function donneesAEnvoyer() {
       console.log('Une erreur est survenue lors de l\'envoi des données : ' + error)
     })
 }
-
 
 
 //  ----------  VIDAGE DU PANIER  ------------------
