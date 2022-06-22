@@ -1,21 +1,34 @@
-const filledCart = document.getElementById('cart__items')
-let nbArticle = 0
-let montantTotal = 0
-const totalQuantity = document.getElementById('totalQuantity')
-const totalPrice = document.getElementById('totalPrice')
+main()
+
+function main() {
+  recuperationDonnees()
+  setTimeout(btnActivation, 500)              //  ajout d'un délai pour garantir que le DOM est construit avant de 
+  setTimeout(inputActivation, 500)            //  pouvoir en sélectionner les éléments .deleteItem et .itemQuantity
+  formulaire()
+}
+
+
+
+
 
 //  ----------  AFFICHAGE DES CANAPES AJOUTES AU LOCALSTORAGE ------------------
 
 let cart = JSON.parse(localStorage.getItem("articleLS"))//  récupération du localStorage
 
-fetch('http://localhost:3000/api/products')
-  .then(res => res.json())
-  .then(data => { afficherCommande(data) })
-  .catch(function (error) {
-    return error;
-  });
+function recuperationDonnees() {
+
+  fetch('http://localhost:3000/api/products')
+    .then(res => res.json())
+    .then(data => { afficherCommande(data) })
+    .catch(function (error) {
+      return error;
+    });
+}
 
 function afficherCommande(tableauCanapes) {
+
+  const filledCart = document.getElementById('cart__items')
+
   tableauCanapes.forEach(canape => {
     for (i = 0; i < cart.length; i++) {
       if (canape._id == cart[i][0]) {
@@ -49,17 +62,21 @@ function afficherCommande(tableauCanapes) {
       }
     }
   })
-  formulaire()
+  // formulaire()
 }
 
 //  AFFICHE LE NOMBRE D'ARTICLES DANS LA COMMANDE
+let nbArticle = 0
 function quantiteTotale(nombre) {
+  const totalQuantity = document.getElementById('totalQuantity')
   nbArticle += parseInt(nombre, 10)
   totalQuantity.textContent = nbArticle
 }
 
 //  CALCULE ET AFFICHE LE MONTANT TOTAL DE LA COMMANDE
+let montantTotal = 0
 function prixTotal(prix, nombre) {
+  const totalPrice = document.getElementById('totalPrice')
   montantTotal += prix * nombre
   totalPrice.textContent = montantTotal
 }
@@ -85,9 +102,7 @@ function supprimerArticle(currentArticleID, currentArticleColor) {
   }
 }
 
-//  ajout d'un délai pour garantir que le DOM est construit avant de pouvoir en sélectionner les éléments .deleteItem et .itemQuantity
-setTimeout(btnActivation, 500)
-setTimeout(inputActivation, 500)
+
 //  ACTIVE LES BOUTONS SUPPRIMER (.deleteItem)
 function btnActivation() {
   let supprBtns = document.getElementsByClassName('deleteItem')
@@ -135,6 +150,7 @@ function inputActivation() {
       let currentArticleColor = currentArticle.dataset['color']
 
       if (qte.value < 1 || qte.value > 100) {               //  si l'utilisateur entre une quantité < 0 ou > 100
+        alert('vous pouvez commander 100 canapés au maximum')
         qte.value = qteInitiale
       } else {
         let newItemQuantity = qte.value
@@ -177,17 +193,19 @@ function formulaire() {
   const erreurVilleMsg = 'Votre ville ?'
   const erreurEmailMsg = 'format attendu : exemple@exemple.ex'
 
-  const textOnlyRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ, '-]+$/     //(/^[A-Za-z]+$/)
+  const textOnlyRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ, '-]+$/
   const adressRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ0-9, '-]+$/
   const emailRegEx = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
 
 
   //  ----------  VALIDATION DU FORMAT DES SAISIES UTILISATEURS DANS LES CHAMPS DU FORMULAIRE ------------------
+
   let prenomOK = false
   let nomOK = false
   let adresseOK = false
   let villeOK = false
   let emailOK = false
+
   // vérification du format des champs sans nombre firstName, lastName, city
   prenom.addEventListener('blur', function (e) {
     e.preventDefault
@@ -227,7 +245,7 @@ function formulaire() {
     }
   })
 
-  // vérification du champ adresse (ne peut pas contenir que des nombres)
+  // vérification du champ adresse (lettres et chiffres)
   adresse.addEventListener('input', function (e) {
     let value = e.target.value;
     let test = adressRegex.test(value)
@@ -274,7 +292,7 @@ function formulaire() {
         email: email.value
       }
 
-      //  ----------  CREATION DU TABLEAU A ENVOYER A L'API ------------------
+      //  ----------  CREATION DE L'OBJET A ENVOYER A L'API ------------------
 
       let products = JSON.parse(localStorage.getItem("articleLS"))
 
