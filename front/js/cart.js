@@ -133,18 +133,16 @@ function inputActivation() {
 
     let currentArticle = qte.closest('article')  //  sélectionne l'article
     let _id = currentArticle.dataset['id']
+    let prixCanape = 0
 
     fetch(`http://localhost:3000/api/products/${_id}`)
       .then(res => res.json())
-      .then(data => getPrice(data))
+      .then(function (canape) {
+        prixCanape = canape.price
+      })
       .catch(function (error) {
         console.log('une erreur est survenue lors de la récupération des données : ' + error)
       })
-
-    let prixCanape
-    function getPrice(canape) {
-      prixCanape = canape.price
-    }
 
     qte.addEventListener('change', function (e) {
       e.preventDefault()
