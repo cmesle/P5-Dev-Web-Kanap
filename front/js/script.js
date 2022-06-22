@@ -1,14 +1,17 @@
+// -----------  RECUPERATION DES DONNEES DE L'API   -----------------------
+
 fetch('http://localhost:3000/api/products')
     .then(res => res.json())
-    .then(data => { afficherCanape(data) })
+    .then(data => { afficherCanapes(data) })
     .catch(function (error) {
         return error
     })
 
+// -----------  AFFICHAGE DES VIGNETTES DES CANAPES   -----------------------
 
-function afficherCanape(tableauCanapes) {
+function afficherCanapes(tableauCanapes) {
 
-    let section = document.getElementById('items');
+    let section = document.getElementById('items')
 
     tableauCanapes.forEach(canape => {
         let produit = `<a href="./product.html?id=${canape._id}">\
@@ -17,7 +20,7 @@ function afficherCanape(tableauCanapes) {
                             <h3 class="productName">${canape.name}</h3>\
                             <p class="productDescription">${canape.description}</p>\
                         </article>\
-                       </a>`;
-        section.innerHTML += produit;
-    });
+                       </a>`
+        section.innerHTML += produit
+    })
 }
