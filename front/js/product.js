@@ -1,18 +1,31 @@
-// -----------  AFFICHAGE DES DONNEES PRODUIT   -----------------------
-
-const pageCourante = document.location.href;
-let url = new URL(pageCourante)
-let _id = url.searchParams.get('id');
-
-let nomCanape                                                   //  variables globales utilisées par
+let _id                                                         //  variables globales utilisées par
+let nomCanape
 let colorSelect = document.getElementById('colors')             //  toutes les fonctions de la page
 
-fetch(`http://localhost:3000/api/products/${_id}`)
-    .then(res => res.json())
-    .then(data => { remplirFiche(data) })
-    .catch(function (error) {
-        return error;
-    })
+main()
+
+function main() {
+    recuperationDonnees()
+    ajouterAuPanier()
+}
+
+
+// -----------  RECUPERATION DES DONNEES DE L'API   -----------------------
+
+function recuperationDonnees() {
+    const pageCourante = document.location.href
+    let url = new URL(pageCourante)
+    _id = url.searchParams.get('id')
+
+    fetch(`http://localhost:3000/api/products/${_id}`)
+        .then(res => res.json())
+        .then(data => { remplirFiche(data) })
+        .catch(function (error) {
+            return error
+        })
+}
+
+// -----------  AFFICHAGE DES DONNEES PRODUIT   -----------------------
 
 function remplirFiche(canape) {
     let image = document.getElementsByClassName('item__img')
@@ -28,59 +41,58 @@ function remplirFiche(canape) {
     });
 
     nomCanape = canape.name
+
 }
 
 
 // -----------  AJOUT D'UN ARTICLE AU PANIER    -----------------------
 
-const quantity = document.getElementById('quantity')
-const commander = document.getElementById('addToCart')
+function ajouterAuPanier() {
 
-commander.addEventListener('click', function (e) {
-    e.preventDefault();
+    const quantity = document.getElementById('quantity')
+    const commander = document.getElementById('addToCart')
 
-    if (quantity.value == 0) {
-        alert('Combien de canapés souhaitez-vous commander ?')
-    } else if (colorSelect.options.selectedIndex == [0]) {
-        alert('Votre confiance nous honore, mais ne préférez-vous pas choisir vous-même la couleur du canapé ?')
-    } else {
-        let newCartItem = [_id, colorSelect.value, parseInt(quantity.value)]
-        let cart = JSON.parse(localStorage.getItem("articleLS"))
+    commander.addEventListener('click', function (e) {
+        e.preventDefault();
 
-        if (!cart) {
-            let cart = []
-            cart.push(newCartItem)
-            localStorage.setItem("articleLS", JSON.stringify(cart));
-            confirmationAjout('Vous avez ajouté ' + quantity.value + '  ' + nomCanape + ' ' + colorSelect.value + ' à votre panier')
-
+        if (colorSelect.options.selectedIndex == [0]) {
+            alert('Votre confiance nous honore, mais ne préférez-vous pas choisir vous-même la couleur du canapé ?')
+        } else if (quantity.value == 0) {
+            alert('Combien de canapés souhaitez-vous commander ?')
+        } else if (quantity.value > 100) {
+            alert('Vous ne pouvez commander que 100 canapés au maximum')
         } else {
+            let newCartItem = [_id, colorSelect.value, parseInt(quantity.value)]
+            let cart = JSON.parse(localStorage.getItem("articleLS"))
 
-            let alreadyInCart = (cartItem) => cartItem[0] == newCartItem[0] && cartItem[1] == newCartItem[1]
+            if (!cart) {
+                let cart = []
+                cart.push(newCartItem)
+                localStorage.setItem("articleLS", JSON.stringify(cart));
+                confirmationAjout('Vous avez ajouté ' + quantity.value + '  ' + nomCanape + ' ' + colorSelect.value + ' à votre panier')
 
-            if (cart.findIndex(alreadyInCart) == -1) {                      // l'article (id + couleur) n'existe pas dans le panier
-                cart.push(newCartItem)                                      // on l'ajoute au panier
-                cart.sort()
-                localStorage.setItem("articleLS", JSON.stringify(cart))     // mise à jour du locaStorage
-                confirmationAjout('Vous avez ajouté ' + quantity.value + ' ' + nomCanape + ' ' + colorSelect.value + ' à votre panier')
             } else {
-                // console.log(cart[cart.findIndex(alreadyInCart)][2])
-                // let truc = parseInt(cart[cart.findIndex(alreadyInCart)][2])
-                // console.log(truc)
-                // truc += newCartItem[2]    // sinon on ajoute la quantité du nouvel article à celle de l'entrée existante
-                // cart[cart.findIndex(alreadyInCart)][2] = truc
-                console.log(cart[cart.findIndex(alreadyInCart)][2])
-                console.log(newCartItem[2])
-                cart[cart.findIndex(alreadyInCart)][2] += newCartItem[2]    // sinon on ajoute la quantité du nouvel article à celle de l'entrée existante
-                console.log(cart[cart.findIndex(alreadyInCart)][2])
-                localStorage.setItem("articleLS", JSON.stringify(cart))     // mise à jour du locaStorage
-                confirmationAjout('Vous avez ajouté ' + quantity.value + ' autre(s) ' + nomCanape + ' ' + colorSelect.value + ' à votre panier')
+
+                let alreadyInCart = (cartItem) => cartItem[0] == newCartItem[0] && cartItem[1] == newCartItem[1]
+
+                if (cart.findIndex(alreadyInCart) == -1) {                      // l'article (id + couleur) n'existe pas dans le panier
+                    cart.push(newCartItem)                                      // on l'ajoute au panier
+                    cart.sort()
+                    localStorage.setItem("articleLS", JSON.stringify(cart))     // mise à jour du locaStorage
+                    confirmationAjout('Vous avez ajouté ' + quantity.value + ' ' + nomCanape + ' ' + colorSelect.value + ' à votre panier')
+                } else {
+                    cart[cart.findIndex(alreadyInCart)][2] += newCartItem[2]    // sinon on ajoute la quantité du nouvel article à celle de l'entrée existante
+                    localStorage.setItem("articleLS", JSON.stringify(cart))     // mise à jour du locaStorage
+                    confirmationAjout('Vous avez ajouté ' + quantity.value + ' autre(s) ' + nomCanape + ' ' + colorSelect.value + ' à votre panier')
+                }
             }
         }
-    }
-})
+    })
+}
 
 /* CONFIRMATION AJOUT : cette fonction fait apparaitre un message confirmant l'ajout de l'article au panier
                         elle donne aussi la possibilité d'accéder au panier sans remonter jusqu'en haut de page */
+
 function confirmationAjout(message) {
     let popUp = document.createElement('div')
     document.getElementsByClassName('item__content__addButton')[0].appendChild(popUp)
