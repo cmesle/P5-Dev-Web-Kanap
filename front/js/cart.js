@@ -21,8 +21,8 @@ function recuperationDonnees() {
     .then(res => res.json())
     .then(data => { afficherCommande(data) })
     .catch(function (error) {
-      return error;
-    });
+      console.log('une erreur est survenue lors de la récupération des données : ' + error)
+    })
 }
 
 function afficherCommande(tableauCanapes) {
@@ -137,6 +137,9 @@ function inputActivation() {
     fetch(`http://localhost:3000/api/products/${_id}`)
       .then(res => res.json())
       .then(data => getPrice(data))
+      .catch(function (error) {
+        console.log('une erreur est survenue lors de la récupération des données : ' + error)
+      })
 
     let prixCanape
     function getPrice(canape) {
