@@ -60,7 +60,7 @@ function ajouterAuPanier() {
         } else if (quantity.value == 0) {
             alert('Combien de canapés souhaitez-vous commander ?')
         } else if (quantity.value > 100) {
-            alert('Vous ne pouvez commander que 100 canapés au maximum')
+            alert('Vous pouvez commander 100 canapés au maximum')
         } else {
             let newCartItem = [_id, colorSelect.value, parseInt(quantity.value)]
             let cart = JSON.parse(localStorage.getItem("articleLS"))
@@ -108,11 +108,17 @@ function confirmationAjout(message) {
                     font-size: 14px;`
     popUp.innerHTML = `<p>${message}</p>
                       <button id='to__cart' href='cart.html' style='margin-right: 18px; font-size: 14px;'>voir le panier</button>
-                      <button id='fermer' style='font-size: 14px;'>fermer</button>`
+                      <button id='to__list' href='index.html' style='margin: 0 18px; font-size: 14px;'>revenir aux produits</button>
+                      <button id='fermer' style='margin-left: 18px; font-size: 14px;'>fermer</button>`
     let toCart = document.getElementById('to__cart')
     toCart.addEventListener('click', function (e) {
         e.preventDefault()
         window.location = 'cart.html'
+    })
+    let toList = document.getElementById('to__list')
+    toList.addEventListener('click', function (e) {
+        e.preventDefault()
+        window.location = 'index.html'
     })
     let fermer = document.getElementById('fermer')
     fermer.addEventListener('click', function (e) {
