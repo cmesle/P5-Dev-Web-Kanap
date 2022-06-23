@@ -119,7 +119,7 @@ function btnActivation() {
     btn.addEventListener('click', function (e) {
       e.preventDefault()
       if (confirm('Etes vous sûr de vouloir supprimer cet article ?')) {
-        let currentArticle = btn.closest('article')  //  sélectionne l'article, trouve son index
+        let currentArticle = btn.closest('article')                           //  sélectionne l'article
         let currentArticleID = currentArticle.dataset['id']
         let currentArticleColor = currentArticle.dataset['color']
         supprimerArticle(currentArticleID, currentArticleColor)
@@ -131,19 +131,17 @@ function btnActivation() {
 
 //  ----------  MISE A JOUR QUANTITE ET PRIX TOTAUX ------------------
 
-let qteArticle = document.getElementsByClassName('itemQuantity')
-
-//  ACTIVE LES INPUT QUANTITE  (.itemQuantity)
 function inputActivation() {
-  for (i = 0; i < qteArticle.length; i++) {       //  boucle qui sélectionne les input et leur ajoute un eventListener
+  let qteArticle = document.getElementsByClassName('itemQuantity')
+  for (i = 0; i < qteArticle.length; i++) {             //  boucle qui sélectionne les input et leur ajoute un eventListener
     let qte = qteArticle[i]
     let qteInitiale = parseInt(qte.value)
 
-    let currentArticle = qte.closest('article')  //  sélectionne l'article
+    let currentArticle = qte.closest('article')              //  sélectionne l'article
     let _id = currentArticle.dataset['id']
     let prixCanape = 0
 
-    fetch(`http://localhost:3000/api/products/${_id}`)
+    fetch(`http://localhost:3000/api/products/${_id}`)      // récupère le prix du canapé correspondant à l'input pour mise à jour du montant total
       .then(res => res.json())
       .then(function (canape) {
         prixCanape = canape.price
@@ -154,7 +152,7 @@ function inputActivation() {
 
     qte.addEventListener('change', function (e) {
       e.preventDefault()
-      e.stopPropagation()
+      // e.stopPropagation()
       let currentArticleID = currentArticle.dataset['id']
       let currentArticleColor = currentArticle.dataset['color']
 
