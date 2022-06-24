@@ -208,24 +208,23 @@ function formulaire() {
   const emailRegEx = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
 
   // vérification du format des champs sans nombre firstName, lastName, city
-  prenom.addEventListener('blur', function (e) {
+  prenom.addEventListener('change', function (e) {
     e.preventDefault
     let value = e.target.value;
-    let test = textOnlyRegex.test(value)
-    if (test) {
+    if (textOnlyRegex.test(value)) {
       erreurPrenom.textContent = ''
       prenomOK = true
     } else {
       erreurPrenom.textContent = erreurPrenomMsg
       prenomOK = false
+      prenom.focus()
     }
     console.log('prenom : ' + prenomOK)
   })
 
-  nom.addEventListener('blur', function (e) {
+  nom.addEventListener('change', function (e) {
     let value = e.target.value;
-    let test = textOnlyRegex.test(value)
-    if (test) {
+    if (textOnlyRegex.test(value)) {
       erreurNom.textContent = ''
       nomOK = true
     } else {
@@ -235,10 +234,9 @@ function formulaire() {
     console.log('nom : ' + nomOK)
   })
 
-  ville.addEventListener('blur', function (e) {
+  ville.addEventListener('change', function (e) {
     let value = e.target.value;
-    let test = textOnlyRegex.test(value)
-    if (test) {
+    if (textOnlyRegex.test(value)) {
       erreurVille.textContent = ''
       villeOK = true
     } else {
@@ -249,10 +247,9 @@ function formulaire() {
   })
 
   // vérification du champ adresse (lettres et chiffres)
-  adresse.addEventListener('blur', function (e) {
+  adresse.addEventListener('change', function (e) {
     let value = e.target.value;
-    let test = adressRegex.test(value)
-    if (test) {
+    if (adressRegex.test(value)) {
       erreurAdresse.textContent = ''
       adresseOK = true
     } else {
@@ -263,10 +260,9 @@ function formulaire() {
   });
 
   // vérification du format du champs email
-  email.addEventListener('blur', function (e) {
+  email.addEventListener('change', function (e) {
     let value = e.target.value;
-    let test = emailRegEx.test(value)
-    if (test) {
+    if (emailRegEx.test(value)) {
       erreurEmail.textContent = ''
       emailOK = true
     } else {
