@@ -3,8 +3,8 @@
 fetch('http://localhost:3000/api/products')
     .then(res => res.json())
     .then(data => { afficherCanapes(data) })
-    .catch(function (error) {
-        return error
+    .catch(error => {
+        console.log('Une erreur est survenue lors de la récupération des données : ' + error)
     })
 
 // -----------  AFFICHAGE DES VIGNETTES DES CANAPES   -----------------------
