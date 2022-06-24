@@ -335,12 +335,13 @@ function donneesAEnvoyer() {
     },
     body: JSON.stringify(commande)
   })
-    .then(async (response) => {                              //  redirection vers la page confirmation avec orderId
-      let orderID = await response.json()
+    .then(res => res.json())
+    .then(data => {                              //  redirection vers la page confirmation avec orderId
+      let orderID = data
       let param = orderID.orderId
       window.location = 'confirmation.html?orderID=' + param
     })
-    .catch(function (error) {
+    .catch(error => {
       console.log('Une erreur est survenue lors de l\'envoi des données : ' + error)
     })
 }
