@@ -209,7 +209,6 @@ function formulaire() {
 
   // vérification du format des champs sans nombre firstName, lastName, city
   prenom.addEventListener('change', function (e) {
-    e.preventDefault
     let value = e.target.value;
     if (textOnlyRegex.test(value)) {
       erreurPrenom.textContent = ''
@@ -217,9 +216,7 @@ function formulaire() {
     } else {
       erreurPrenom.textContent = erreurPrenomMsg
       prenomOK = false
-      prenom.focus()
     }
-    console.log('prenom : ' + prenomOK)
   })
 
   nom.addEventListener('change', function (e) {
@@ -231,7 +228,6 @@ function formulaire() {
       erreurNom.textContent = erreurNomMsg
       nomOK = false
     }
-    console.log('nom : ' + nomOK)
   })
 
   ville.addEventListener('change', function (e) {
@@ -243,7 +239,6 @@ function formulaire() {
       erreurVille.textContent = erreurVilleMsg
       villeOK = false
     }
-    console.log('ville : ' + villeOK)
   })
 
   // vérification du champ adresse (lettres et chiffres)
@@ -256,7 +251,6 @@ function formulaire() {
       erreurAdresse.textContent = erreurAdresseMsg
       adresseOK = false
     }
-    console.log('adresse : ' + adresseOK)
   });
 
   // vérification du format du champs email
@@ -269,7 +263,6 @@ function formulaire() {
       erreurEmail.textContent = erreurEmailMsg
       emailOK = false
     }
-    console.log('email : ' + emailOK)
   })
 }
 
