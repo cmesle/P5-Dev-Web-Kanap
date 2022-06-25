@@ -229,12 +229,7 @@ function formulaire() {
   const erreurVilleMsg = 'Ceci ne semble pas être le nom d\'une ville'
   const erreurEmailMsg = 'format attendu : exemple@exemple.ex'
 
-  // const textOnlyRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ, '-]+$/
-  // const adressRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ0-9, '-]+$/
-  // const emailRegEx = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
-
   // vérification du format des champs sans nombre firstName, lastName, city
-
   prenom.addEventListener('change', function (e) {
     let value = e.target.value;
     prenomOK = textOnlyVerif(value, erreurPrenom, prenomOK, erreurPrenomMsg)
@@ -283,7 +278,6 @@ function formulaire() {
 /*  ----------  BOUTON "COMMANDER"  ------------------
   Vérifie le formulaire, envoie la commande à l'API et vide le panier */
 let contact = {}
-let param
 function commander() {
   const commanderBtn = document.getElementById('order')
   commanderBtn.addEventListener('click', function (e) {
@@ -306,7 +300,6 @@ function commander() {
     }
   })
 }
-
 
 //  ----------  PREPARATION TABLEAU PRODUCTS  ------------------
 
