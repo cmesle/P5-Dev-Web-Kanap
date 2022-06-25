@@ -36,8 +36,6 @@ function recuperationDonnees() {
 
 function afficherCommande(tableauCanapes) {
 
-  // const filledCart = document.getElementById('cart__items')
-
   tableauCanapes.forEach(canape => {
     for (i = 0; i < cart.length; i++) {
       if (canape._id == cart[i][0]) {
@@ -71,8 +69,8 @@ function afficherCommande(tableauCanapes) {
       }
     }
   })
-  setTimeout(btnActivation, 500)              //  ajout d'un délai pour garantir que le DOM est construit avant de 
-  setTimeout(inputActivation, 500)            //  pouvoir en sélectionner les éléments .deleteItem et .itemQuantity
+  setTimeout(supprBtnActivation(), 500)              //  ajout d'un délai pour garantir que le DOM est construit avant de 
+  setTimeout(qteInputActivation(), 500)            //  pouvoir en sélectionner les éléments .deleteItem et .itemQuantity
 }
 
 //  AFFICHE LE NOMBRE D'ARTICLES DANS LA COMMANDE
@@ -91,35 +89,8 @@ function prixTotal(prix, nombre) {
   totalPrice.textContent = montantTotal
 }
 
-//  SUPPRIME L'ARTICLE DU PANIER
-function supprimerArticle(currentArticleID, currentArticleColor) {
-  let i = 0
-  let suppression = false
-  while (i < cart.length && !suppression) {
-    if (cart[i][0] == currentArticleID && cart[i][1] == currentArticleColor) {
-      cart.splice(i, 1)
-      suppression = true
-    }
-    i++
-  }
-
-  if (cart.length == 0) {
-    localStorage.clear()
-    filledCart.textContent = 'est désormais tristement vide'
-    totalPrice.textContent = ''
-    totalQuantity.textContent = ''
-  } else {
-    localStorage.setItem('articleLS', JSON.stringify(cart))
-    filledCart.innerHTML = ''
-    montantTotal = 0
-    nbArticle = 0
-    recuperationDonnees()
-  }
-}
-
-
-//  ACTIVE LES BOUTONS SUPPRIMER (.deleteItem)
-function btnActivation() {
+//  ACTIVE LES BOUTONS SUPPRIMER (.deleteItem) 
+function supprBtnActivation() {
   let supprBtns = document.getElementsByClassName('deleteItem')
   for (i = 0; i < supprBtns.length; i++) {
     let btn = supprBtns[i]
@@ -135,10 +106,40 @@ function btnActivation() {
   }
 }
 
+//  SUPPRIME L'ARTICLE DU PANIER
+function supprimerArticle(currentArticleID, currentArticleColor) {
+  let i = 0
+  let suppression = false
+  while (i < cart.length && !suppression) {
+    if (cart[i][0] == currentArticleID && cart[i][1] == currentArticleColor) {
+      cart.splice(i, 1)
+      suppression = true
+    }
+    i++
+  }
+  supprUpgradeAffichagePanier()
+}
+
+//  MET A JOUR L'AFFICHAGE DU PANIER APRES SUPPRESSION
+function supprUpgradeAffichagePanier() {
+  if (cart.length == 0) {
+    localStorage.clear()
+    filledCart.setAttribute('align-items', 'center')
+    filledCart.textContent = 'est désormais tristement vide'
+    totalPrice.textContent = ''
+    totalQuantity.textContent = ''
+  } else {
+    localStorage.setItem('articleLS', JSON.stringify(cart))
+    filledCart.innerHTML = ''
+    montantTotal = 0
+    nbArticle = 0
+    recuperationDonnees()
+  }
+}
 
 //  ----------  MISE A JOUR QUANTITE ET PRIX TOTAUX ------------------
 
-function inputActivation() {
+function qteInputActivation() {
   let qteArticle = document.getElementsByClassName('itemQuantity')
   for (i = 0; i < qteArticle.length; i++) {             //  boucle qui sélectionne les input et leur ajoute un eventListener
     let qte = qteArticle[i]
