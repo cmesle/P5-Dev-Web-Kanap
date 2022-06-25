@@ -202,17 +202,13 @@ let villeOK = false
 let emailOK = false
 
 function textOnlyVerif(value, erreurChamp, champOK, erreurChampMsg) {
-  console.log('champOK dbt : ' + champOK)
   if (textOnlyRegex.test(value)) {
     erreurChamp.textContent = ''
     champOK = true
-    console.log('champOK if fin : ' + champOK)
   } else {
     erreurChamp.textContent = erreurChampMsg
     champOK = false
-    console.log('champOK else fin : ' + champOK)
   }
-  console.log('champOK fin : ' + champOK)
   return champOK
 }
 
@@ -262,7 +258,7 @@ function formulaire() {
       erreurAdresse.textContent = erreurAdresseMsg
       adresseOK = false
     }
-  });
+  })
 
   // vérification du format du champs email
   email.addEventListener('change', function (e) {
