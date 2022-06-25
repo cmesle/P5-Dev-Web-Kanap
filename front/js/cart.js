@@ -91,7 +91,7 @@ function prixTotal(prix, nombre) {
   totalPrice.textContent = montantTotal
 }
 
-//  SUPPRIME L'ARTICLE DU PANIER ET RECHARGE LA PAGE
+//  SUPPRIME L'ARTICLE DU PANIER
 function supprimerArticle(currentArticleID, currentArticleColor) {
   let i = 0
   let suppression = false
