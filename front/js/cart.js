@@ -106,12 +106,10 @@ function supprimerArticle(currentArticleID, currentArticleColor) {
   if (cart.length == 0) {
     localStorage.clear()
     filledCart.textContent = 'est désormais tristement vide'
-    montantTotal = 0
-    nbArticle = 0
-    // window.location = 'cart.html'
+    totalPrice.textContent = ''
+    totalQuantity.textContent = ''
   } else {
     localStorage.setItem('articleLS', JSON.stringify(cart))
-    // window.location = 'cart.html'
     filledCart.innerHTML = ''
     montantTotal = 0
     nbArticle = 0
