@@ -9,6 +9,7 @@ main()
 
 function main() {
   recuperationDonnees()
+  formulaire()
   commander()
 }
 
@@ -18,7 +19,7 @@ function main() {
 ------------------------------------------------------------------------------------------------- */
 
 
-//  ----------  AFFICHAGE DES CANAPES AJOUTES AU LOCALSTORAGE ------------------
+//  ----------  AFFICHAGE DU PANIER ------------------
 
 let cart = JSON.parse(localStorage.getItem("articleLS"))            //  récupération du localStorage
 
@@ -87,6 +88,9 @@ function prixTotal(prix, nombre) {
   totalPrice.textContent = montantTotal
 }
 
+
+//  ----------  SUPPRESSION DES ARTICLES ------------------
+
 //  ACTIVE LES BOUTONS SUPPRIMER (.deleteItem) 
 function supprBtnActivation() {
   let supprBtns = document.getElementsByClassName('deleteItem')
@@ -135,7 +139,7 @@ function supprUpgradeAffichagePanier() {
   }
 }
 
-//  ----------  MISE A JOUR QUANTITE ET PRIX TOTAUX ------------------
+//  ----------  MODIFICATION DES QUANTITES ------------------
 
 function qteInputActivation() {
   let qteArticle = document.getElementsByClassName('itemQuantity')
@@ -158,7 +162,6 @@ function qteInputActivation() {
 
     qte.addEventListener('change', function (e) {
       e.preventDefault()
-      // e.stopPropagation()
       let currentArticleID = currentArticle.dataset['id']
       let currentArticleColor = currentArticle.dataset['color']
 
@@ -170,6 +173,7 @@ function qteInputActivation() {
         let difference = newItemQuantity - qteInitiale
         qteInitiale = qte.value                            //  réinitialisation de qteInitiale pour changements ultérieurs
         quantiteTotale(difference)                         // mise à jour du nombre total d'articles
+
         // mise à jour du localStorage
         let ligneAModifier = (cartItem) => cartItem[0] == currentArticleID && cartItem[1] == currentArticleColor
         cart[cart.findIndex(ligneAModifier)][2] += difference
@@ -212,66 +216,66 @@ function textOnlyVerif(value, erreurChamp, champOK, erreurChampMsg) {
   return champOK
 }
 
-// function formulaire() {
+function formulaire() {
 
-const erreurPrenom = document.getElementById('firstNameErrorMsg')
-const erreurNom = document.getElementById('lastNameErrorMsg')
-const erreurAdresse = document.getElementById('addressErrorMsg')
-const erreurVille = document.getElementById('cityErrorMsg')
-const erreurEmail = document.getElementById('emailErrorMsg')
+  const erreurPrenom = document.getElementById('firstNameErrorMsg')
+  const erreurNom = document.getElementById('lastNameErrorMsg')
+  const erreurAdresse = document.getElementById('addressErrorMsg')
+  const erreurVille = document.getElementById('cityErrorMsg')
+  const erreurEmail = document.getElementById('emailErrorMsg')
 
 
-const erreurPrenomMsg = 'Votre prénom ne doit contenir que des lettres svp'
-const erreurNomMsg = 'Votre nom ne doit contenir que des lettres svp'
-const erreurAdresseMsg = 'Ceci ne semble pas être une adresse correcte'
-const erreurVilleMsg = 'Ceci ne semble pas être le nom d\'une ville'
-const erreurEmailMsg = 'format attendu : exemple@exemple.ex'
+  const erreurPrenomMsg = 'Votre prénom ne doit contenir que des lettres svp'
+  const erreurNomMsg = 'Votre nom ne doit contenir que des lettres svp'
+  const erreurAdresseMsg = 'Ceci ne semble pas être une adresse correcte'
+  const erreurVilleMsg = 'Ceci ne semble pas être le nom d\'une ville'
+  const erreurEmailMsg = 'format attendu : exemple@exemple.ex'
 
-// const textOnlyRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ, '-]+$/
-// const adressRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ0-9, '-]+$/
-// const emailRegEx = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
+  // const textOnlyRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ, '-]+$/
+  // const adressRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ0-9, '-]+$/
+  // const emailRegEx = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
 
-// vérification du format des champs sans nombre firstName, lastName, city
+  // vérification du format des champs sans nombre firstName, lastName, city
 
-prenom.addEventListener('change', function (e) {
-  let value = e.target.value;
-  prenomOK = textOnlyVerif(value, erreurPrenom, prenomOK, erreurPrenomMsg)
-})
+  prenom.addEventListener('change', function (e) {
+    let value = e.target.value;
+    prenomOK = textOnlyVerif(value, erreurPrenom, prenomOK, erreurPrenomMsg)
+  })
 
-nom.addEventListener('change', function (e) {
-  let value = e.target.value;
-  nomOK = textOnlyVerif(value, erreurNom, nomOK, erreurNomMsg)
-})
+  nom.addEventListener('change', function (e) {
+    let value = e.target.value;
+    nomOK = textOnlyVerif(value, erreurNom, nomOK, erreurNomMsg)
+  })
 
-ville.addEventListener('change', function (e) {
-  let value = e.target.value;
-  villeOK = textOnlyVerif(value, erreurVille, villeOK, erreurVilleMsg)
-})
+  ville.addEventListener('change', function (e) {
+    let value = e.target.value;
+    villeOK = textOnlyVerif(value, erreurVille, villeOK, erreurVilleMsg)
+  })
 
-// vérification du champ adresse (lettres et chiffres)
-adresse.addEventListener('change', function (e) {
-  let value = e.target.value;
-  if (adressRegex.test(value)) {
-    erreurAdresse.textContent = ''
-    adresseOK = true
-  } else {
-    erreurAdresse.textContent = erreurAdresseMsg
-    adresseOK = false
-  }
-});
+  // vérification du champ adresse (lettres et chiffres)
+  adresse.addEventListener('change', function (e) {
+    let value = e.target.value;
+    if (adressRegex.test(value)) {
+      erreurAdresse.textContent = ''
+      adresseOK = true
+    } else {
+      erreurAdresse.textContent = erreurAdresseMsg
+      adresseOK = false
+    }
+  });
 
-// vérification du format du champs email
-email.addEventListener('change', function (e) {
-  let value = e.target.value;
-  if (emailRegEx.test(value)) {
-    erreurEmail.textContent = ''
-    emailOK = true
-  } else {
-    erreurEmail.textContent = erreurEmailMsg
-    emailOK = false
-  }
-})
-// }
+  // vérification du format du champs email
+  email.addEventListener('change', function (e) {
+    let value = e.target.value;
+    if (emailRegEx.test(value)) {
+      erreurEmail.textContent = ''
+      emailOK = true
+    } else {
+      erreurEmail.textContent = erreurEmailMsg
+      emailOK = false
+    }
+  })
+}
 
 //  ----------  BOUTON "COMMANDER"  ------------------
 
