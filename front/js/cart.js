@@ -9,8 +9,6 @@ main()
 
 function main() {
   recuperationDonnees()
-
-  formulaire()
   commander()
 }
 
@@ -189,6 +187,9 @@ function qteInputActivation() {
 ------------------------------------------------------------------------------------------------- */
 
 //  ----------  VALIDATION DU FORMAT DES SAISIES UTILISATEUR DANS LES CHAMPS DU FORMULAIRE ------------------
+const textOnlyRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ, '-]+$/
+const adressRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ0-9, '-]+$/
+const emailRegEx = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
 
 let prenomOK = false
 let nomOK = false
@@ -196,92 +197,89 @@ let adresseOK = false
 let villeOK = false
 let emailOK = false
 
-function formulaire() {
-
-  const erreurPrenom = document.getElementById('firstNameErrorMsg')
-  const erreurNom = document.getElementById('lastNameErrorMsg')
-  const erreurAdresse = document.getElementById('addressErrorMsg')
-  const erreurVille = document.getElementById('cityErrorMsg')
-  const erreurEmail = document.getElementById('emailErrorMsg')
-
-
-  const erreurPrenomMsg = 'Votre prénom ne doit contenir que des lettres svp'
-  const erreurNomMsg = 'Votre nom ne doit contenir que des lettres svp'
-  const erreurAdresseMsg = 'Ceci ne semble pas être une adresse correcte'
-  const erreurVilleMsg = 'Ceci ne semble pas être le nom d\'une ville'
-  const erreurEmailMsg = 'format attendu : exemple@exemple.ex'
-
-  const textOnlyRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ, '-]+$/
-  const adressRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ0-9, '-]+$/
-  const emailRegEx = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
-
-  // vérification du format des champs sans nombre firstName, lastName, city
-  prenom.addEventListener('change', function (e) {
-    let value = e.target.value;
-    if (textOnlyRegex.test(value)) {
-      erreurPrenom.textContent = ''
-      prenomOK = true
-    } else {
-      erreurPrenom.textContent = erreurPrenomMsg
-      prenomOK = false
-    }
-  })
-
-  nom.addEventListener('change', function (e) {
-    let value = e.target.value;
-    if (textOnlyRegex.test(value)) {
-      erreurNom.textContent = ''
-      nomOK = true
-    } else {
-      erreurNom.textContent = erreurNomMsg
-      nomOK = false
-    }
-  })
-
-  ville.addEventListener('change', function (e) {
-    let value = e.target.value;
-    if (textOnlyRegex.test(value)) {
-      erreurVille.textContent = ''
-      villeOK = true
-    } else {
-      erreurVille.textContent = erreurVilleMsg
-      villeOK = false
-    }
-  })
-
-  // vérification du champ adresse (lettres et chiffres)
-  adresse.addEventListener('change', function (e) {
-    let value = e.target.value;
-    if (adressRegex.test(value)) {
-      erreurAdresse.textContent = ''
-      adresseOK = true
-    } else {
-      erreurAdresse.textContent = erreurAdresseMsg
-      adresseOK = false
-    }
-  });
-
-  // vérification du format du champs email
-  email.addEventListener('change', function (e) {
-    let value = e.target.value;
-    if (emailRegEx.test(value)) {
-      erreurEmail.textContent = ''
-      emailOK = true
-    } else {
-      erreurEmail.textContent = erreurEmailMsg
-      emailOK = false
-    }
-  })
+function textOnlyVerif(value, erreurChamp, champOK, erreurChampMsg) {
+  console.log('champOK dbt : ' + champOK)
+  if (textOnlyRegex.test(value)) {
+    erreurChamp.textContent = ''
+    champOK = true
+    console.log('champOK if fin : ' + champOK)
+  } else {
+    erreurChamp.textContent = erreurChampMsg
+    champOK = false
+    console.log('champOK else fin : ' + champOK)
+  }
+  console.log('champOK fin : ' + champOK)
+  return champOK
 }
+
+// function formulaire() {
+
+const erreurPrenom = document.getElementById('firstNameErrorMsg')
+const erreurNom = document.getElementById('lastNameErrorMsg')
+const erreurAdresse = document.getElementById('addressErrorMsg')
+const erreurVille = document.getElementById('cityErrorMsg')
+const erreurEmail = document.getElementById('emailErrorMsg')
+
+
+const erreurPrenomMsg = 'Votre prénom ne doit contenir que des lettres svp'
+const erreurNomMsg = 'Votre nom ne doit contenir que des lettres svp'
+const erreurAdresseMsg = 'Ceci ne semble pas être une adresse correcte'
+const erreurVilleMsg = 'Ceci ne semble pas être le nom d\'une ville'
+const erreurEmailMsg = 'format attendu : exemple@exemple.ex'
+
+// const textOnlyRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ, '-]+$/
+// const adressRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ0-9, '-]+$/
+// const emailRegEx = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
+
+// vérification du format des champs sans nombre firstName, lastName, city
+
+prenom.addEventListener('change', function (e) {
+  let value = e.target.value;
+  prenomOK = textOnlyVerif(value, erreurPrenom, prenomOK, erreurPrenomMsg)
+})
+
+nom.addEventListener('change', function (e) {
+  let value = e.target.value;
+  nomOK = textOnlyVerif(value, erreurNom, nomOK, erreurNomMsg)
+})
+
+ville.addEventListener('change', function (e) {
+  let value = e.target.value;
+  villeOK = textOnlyVerif(value, erreurVille, villeOK, erreurVilleMsg)
+})
+
+// vérification du champ adresse (lettres et chiffres)
+adresse.addEventListener('change', function (e) {
+  let value = e.target.value;
+  if (adressRegex.test(value)) {
+    erreurAdresse.textContent = ''
+    adresseOK = true
+  } else {
+    erreurAdresse.textContent = erreurAdresseMsg
+    adresseOK = false
+  }
+});
+
+// vérification du format du champs email
+email.addEventListener('change', function (e) {
+  let value = e.target.value;
+  if (emailRegEx.test(value)) {
+    erreurEmail.textContent = ''
+    emailOK = true
+  } else {
+    erreurEmail.textContent = erreurEmailMsg
+    emailOK = false
+  }
+})
+// }
 
 //  ----------  BOUTON "COMMANDER"  ------------------
 
 let contact = {}
 function commander() {
-  const btnCommander = document.getElementById('order')
-  btnCommander.addEventListener('click', function (e) {
+  const commanderBtn = document.getElementById('order')
+  commanderBtn.addEventListener('click', function (e) {
     e.preventDefault()
-
     if (prenom.value == '' || nom.value == '' || adresse.value == '' || ville.value == '' || email.value == '') {
       alert('tous les champs doivent être remplis afin de passer votre commande')
     } else if (!prenomOK || !nomOK || !adresseOK || !villeOK || !emailOK) {
@@ -296,7 +294,7 @@ function commander() {
       }
 
       donneesAEnvoyer()
-      // viderPanier()
+      localStorage.clear()
     }
   })
 }
@@ -342,12 +340,3 @@ function donneesAEnvoyer() {
       console.log('Une erreur est survenue lors de l\'envoi des données : ' + error)
     })
 }
-
-
-//  ----------  VIDAGE DU PANIER  ------------------
-
-function viderPanier() {
-  localStorage.clear()
-}
-
-
