@@ -190,7 +190,6 @@ function qteInputActivation() {
                                           FORMULAIRE
 ------------------------------------------------------------------------------------------------- */
 
-//  ----------  VALIDATION DU FORMAT DES SAISIES UTILISATEUR DANS LES CHAMPS DU FORMULAIRE ------------------
 const textOnlyRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ, '-]+$/
 const adressRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ0-9, '-]+$/
 const emailRegEx = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
@@ -201,6 +200,7 @@ let adresseOK = false
 let villeOK = false
 let emailOK = false
 
+// VERIFICATION CHAMPS NE POUVANT CONTENIR QUE DU TEXTE
 function textOnlyVerif(value, erreurChamp, champOK, erreurChampMsg) {
   if (textOnlyRegex.test(value)) {
     erreurChamp.textContent = ''
@@ -211,6 +211,8 @@ function textOnlyVerif(value, erreurChamp, champOK, erreurChampMsg) {
   }
   return champOK
 }
+
+//  ----------  VALIDATION DU FORMAT DES SAISIES UTILISATEUR DANS LES CHAMPS DU FORMULAIRE ------------------
 
 function formulaire() {
 
@@ -273,9 +275,15 @@ function formulaire() {
   })
 }
 
-//  ----------  BOUTON "COMMANDER"  ------------------
 
+/*  ------------------------------------------------------------------------------------------------
+                                      ENVOI DE LA COMMANDE
+------------------------------------------------------------------------------------------------- */
+
+/*  ----------  BOUTON "COMMANDER"  ------------------
+  Vérifie le formulaire, envoie la commande à l'API et vide le panier */
 let contact = {}
+let param
 function commander() {
   const commanderBtn = document.getElementById('order')
   commanderBtn.addEventListener('click', function (e) {
@@ -332,8 +340,7 @@ function donneesAEnvoyer() {
   })
     .then(res => res.json())
     .then(data => {                              //  redirection vers la page confirmation avec orderId
-      let orderID = data
-      let param = orderID.orderId
+      let param = data.orderId
       window.location = 'confirmation.html?orderID=' + param
     })
     .catch(error => {
