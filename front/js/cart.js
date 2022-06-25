@@ -1,3 +1,4 @@
+const filledCart = document.getElementById('cart__items')
 const prenom = document.getElementById('firstName')
 const nom = document.getElementById('lastName')
 const adresse = document.getElementById('address')
@@ -8,8 +9,7 @@ main()
 
 function main() {
   recuperationDonnees()
-  setTimeout(btnActivation, 500)              //  ajout d'un délai pour garantir que le DOM est construit avant de 
-  setTimeout(inputActivation, 500)            //  pouvoir en sélectionner les éléments .deleteItem et .itemQuantity
+
   formulaire()
   commander()
 }
@@ -36,7 +36,7 @@ function recuperationDonnees() {
 
 function afficherCommande(tableauCanapes) {
 
-  const filledCart = document.getElementById('cart__items')
+  // const filledCart = document.getElementById('cart__items')
 
   tableauCanapes.forEach(canape => {
     for (i = 0; i < cart.length; i++) {
@@ -71,6 +71,8 @@ function afficherCommande(tableauCanapes) {
       }
     }
   })
+  setTimeout(btnActivation, 500)              //  ajout d'un délai pour garantir que le DOM est construit avant de 
+  setTimeout(inputActivation, 500)            //  pouvoir en sélectionner les éléments .deleteItem et .itemQuantity
 }
 
 //  AFFICHE LE NOMBRE D'ARTICLES DANS LA COMMANDE
@@ -103,10 +105,17 @@ function supprimerArticle(currentArticleID, currentArticleColor) {
 
   if (cart.length == 0) {
     localStorage.clear()
-    window.location = 'cart.html'
+    filledCart.textContent = 'est désormais tristement vide'
+    montantTotal = 0
+    nbArticle = 0
+    // window.location = 'cart.html'
   } else {
     localStorage.setItem('articleLS', JSON.stringify(cart))
-    window.location = 'cart.html'
+    // window.location = 'cart.html'
+    filledCart.innerHTML = ''
+    montantTotal = 0
+    nbArticle = 0
+    recuperationDonnees()
   }
 }
 
@@ -275,7 +284,7 @@ function commander() {
     e.preventDefault()
 
     if (prenom.value == '' || nom.value == '' || adresse.value == '' || ville.value == '' || email.value == '') {
-      alert('tous les champs doivent être remplis avant de passer votre commande')
+      alert('tous les champs doivent être remplis afin de passer votre commande')
     } else if (!prenomOK || !nomOK || !adresseOK || !villeOK || !emailOK) {
       alert('certains des champs sont mal remplis')
     } else {
