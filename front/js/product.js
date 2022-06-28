@@ -106,16 +106,16 @@ function confirmationAjout(message) {
                     position: absolute;
                     left: 25%;
                     width: 50%;
-                    padding: 20px;
+                    padding: 20px 20px 0px 20px;
                     background: rgb(44, 62, 80);
                     border-radius: 20px;
                     border: 2px solid white;
                     text-align: center;
                     font-size: 14px;`
     popUp.innerHTML = `<p>${message}</p>
-                      <button id='to__cart' href='cart.html' style='margin-right: 18px; font-size: 14px;'>voir le panier</button>
+                      <button id='to__cart' href='cart.html' style='margin: 0px 18px 18px 18px; font-size: 14px;'>voir le panier</button>
                       <button id='to__list' href='index.html' style='margin: 0 18px; font-size: 14px;'>revenir aux produits</button>
-                      <button id='fermer' style='margin-left: 18px; font-size: 14px;'>fermer</button>`
+                      <button id='fermer' style='margin: 18px; font-size: 14px;'>fermer</button>`
     let toCart = document.getElementById('to__cart')
     toCart.addEventListener('click', function (e) {
         e.preventDefault()
